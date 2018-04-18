@@ -4,10 +4,11 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<VBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoginController">
     <children>
         <TextField fx:id="username" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="381.0" promptText="Username" />
         <TextField fx:id="password" alignment="CENTER" layoutX="10.0" layoutY="36.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="381.0" promptText="Password" />
-        <Button fx:id="login_button" layoutX="2000" mnemonicParsing="false" onAction="#onClick" prefHeight="57.0" prefWidth="140.0" text="Button" />
+      <Button fx:id="register_button" mnemonicParsing="false" onAction="#onClickRegister" text="Register" />
+        <Button fx:id="login_button" layoutX="2000" mnemonicParsing="false" onAction="#onClickLogin" prefHeight="57.0" prefWidth="140.0" text="Login" />
     </children>
 </VBox>
