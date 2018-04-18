@@ -15,21 +15,24 @@ public class LoginController //implements Initializable
     public Button login_button;
     public TextField username, password;
 
+    public static String name,pass;
    /* @Override
     public void initialize(URL location, ResourceBundle resources)
     {
         System.out.println("Do database stuff here before starting program.....if any");
     }*/
 
-    public void onClickLogin() throws SQLException {
-        String name = username.getText();
-        String pass = password.getText();
+    public void onClickLogin() {
+        name = username.getText();
+        pass = password.getText();
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, name, pass);
-            System.out.println(con.getMetaData());
-        } catch (Exception e) {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/planet", "test", "password");
-            Statement s = con.createStatement();
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "test", "password");
+            Parent root = FXMLLoader.load(getClass().getResource("dashboard.fxml"));
+            Main.stage.setScene(new Scene(root, 500, 500));
+        }
+        catch (Exception e)
+        {
+            System.out.println("FUCK");
         }
     }
 
