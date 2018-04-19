@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DashboardController">
+   <children>
+      <ListView fx:id="left_list" layoutX="21.0" layoutY="58.0" onMouseClicked="#show_det" prefHeight="216.0" prefWidth="208.0" />
+      <TextArea fx:id="area" layoutX="289.0" layoutY="74.0" prefHeight="200.0" prefWidth="200.0" />
+      <Slider layoutX="82.0" layoutY="325.0" />
+      <ToggleButton layoutX="64.0" layoutY="289.0" mnemonicParsing="false" text="ToggleButton" />
+      <ProgressBar layoutX="229.0" layoutY="305.0" prefWidth="200.0" progress="0.0" />
+   </children>
+</AnchorPane>
