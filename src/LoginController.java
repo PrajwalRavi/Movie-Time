@@ -31,7 +31,7 @@ public class LoginController //implements Initializable
             ResultSet valid = con.createStatement().executeQuery("SELECT * FROM creds WHERE uname='" + name + "' AND " +
                     "password='" + pass + "';");
             if (!valid.next())
-                throw new Exception("Invalid login");
+                throw new Exception("Invalid login");       //NEW SCREEN HERE AKHIL
             Parent root = FXMLLoader.load(getClass().getResource("dashboard.fxml"));
             Main.stage.setScene(new Scene(root, 500, 500));
         } catch (Exception e) {
