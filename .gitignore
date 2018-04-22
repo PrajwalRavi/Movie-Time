@@ -16,6 +16,7 @@
 *.ear
 *.zip
 *.tar.gz
+/.idea
 *.rar
 *.idea
 .idea/

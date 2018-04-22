@@ -3,6 +3,7 @@ import java.sql.*;
 
 public class InsertController {
 
+
     public TextField Movie_name,Year,Rating,Genre,Spath,Ppath,Mpath,Dname,Dage,Ddob,Prodname,Prodceo,Cast,Slang,Box;
 
     public void InsertIntoTables() throws SQLException {
@@ -92,4 +93,5 @@ public class InsertController {
         s7.execute();
 
     }
+
 }

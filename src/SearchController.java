@@ -2,6 +2,7 @@ import javafx.scene.control.TextField;
 import java.sql.*;
 
 public class SearchController {
+
     public TextField word,fiter;
 
     public void onClickSearch() throws SQLException {
@@ -32,4 +33,5 @@ public class SearchController {
             ResultSet result = s.executeQuery("SELECT DIRECTOR.NAME,MOVIE.NAME FROM ((MOVIE INNER JOIN MOVIE_DET ON MOVIE.ID=MOVIE_DET.ID) INNER JOIN DIRECTOR ON DIRECTOR.DID = MOVIE_DET.DID);");
         }
     }
+
 }
