@@ -41,7 +41,7 @@ public class LoginController implements Initializable
         name = username.getText();
         pass = password.getText();
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "test", "password");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/akhil", "root", "root");
             ResultSet valid = con.createStatement().executeQuery("SELECT * FROM creds WHERE uname='" + name + "' AND " +
                     "password='" + pass + "';");
             if (!valid.next())
@@ -58,7 +58,7 @@ public class LoginController implements Initializable
     public PasswordField password2,password3;
 
     public void createTables(String user) throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + user, "test", "password");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + user, "root", "root");
         Statement s = con.createStatement();
         s.executeUpdate("CREATE TABLE PRODHOUSE(PID INT AUTO_INCREMENT ,NAME VARCHAR(100),CEO VARCHAR(100),PRIMARY KEY(PID));");
         s.executeUpdate("CREATE TABLE DIRECTOR(DID INT AUTO_INCREMENT, NAME VARCHAR(80), AGE INT NOT NULL,PRIMARY KEY(DID));");
@@ -76,7 +76,7 @@ public class LoginController implements Initializable
         String user = username2.getText();
         String password = password2.getText();
         if(password2.getText().equals(password3.getText())) {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/akhil", "test", "password");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/akhil", "root", "root");
             Statement s = con.createStatement();
             s.executeUpdate("CREATE DATABASE IF NOT EXISTS " + user + ";");
             s.executeUpdate("INSERT INTO creds VALUES('" + user + "','" + password + "');");
@@ -101,7 +101,7 @@ public class LoginController implements Initializable
         anchor.getChildren().add(bar);
         anchor.setStyle("-fx-background-color: #17181b");
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "test", "password");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "root", "root");
             s = con.createStatement();
             ResultSet num = s.executeQuery("SELECT COUNT(*) as something FROM movie;");
             num.next();
