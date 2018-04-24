@@ -95,9 +95,8 @@ public class LoginController implements Initializable
             for(i=1;i<=count;i++)
             {
 
-                //j=i/9+1;
-                //i1=i%9;
-                j++;
+                j=i/9+1;
+                i1=i%9;
                 if(i1==0)
                     i1=9;
                 if(posterno.getItems().contains(i))
