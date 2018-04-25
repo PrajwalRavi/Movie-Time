@@ -5,6 +5,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -27,9 +30,10 @@ public class LoginController implements Initializable
     public static String name, pass;
     String path ="";
     public  Statement s;
-    public  ListView<String> left_list = new ListView<String>();
-    public  ListView<Integer> posterno=new ListView<Integer>();
-    public  ListView<String> poster_list=new ListView<String>();
+    public  static ListView<String> left_list = new ListView<String>();
+    public  static ListView<Integer> posterno=new ListView<Integer>();
+    public  static ListView<String> poster_list=new ListView<String>();
+    public static int integer;
     //* @Override
     public void initialize(URL location, ResourceBundle resources)
     {
@@ -41,7 +45,7 @@ public class LoginController implements Initializable
         name = username.getText();
         pass = password.getText();
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "test", "password");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/akhil", "root", "root");
             ResultSet valid = con.createStatement().executeQuery("SELECT * FROM creds WHERE uname='" + name + "' AND " +
                     "password='" + pass + "';");
             if (!valid.next())
@@ -58,7 +62,7 @@ public class LoginController implements Initializable
     public PasswordField password2,password3;
 
     public void createTables(String user) throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + user, "test", "password");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + user, "root", "root");
         Statement s = con.createStatement();
         s.executeUpdate("CREATE TABLE PRODHOUSE(PID INT AUTO_INCREMENT ,NAME VARCHAR(100),CEO VARCHAR(100),PRIMARY KEY(PID));");
         s.executeUpdate("CREATE TABLE DIRECTOR(DID INT AUTO_INCREMENT, NAME VARCHAR(80), AGE INT NOT NULL,PRIMARY KEY(DID));");
@@ -76,7 +80,11 @@ public class LoginController implements Initializable
         String user = username2.getText();
         String password = password2.getText();
         if(password2.getText().equals(password3.getText())) {
+<<<<<<< HEAD
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "test", "password");
+=======
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/akhil", "root", "root");
+>>>>>>> 90f9352159882986afad5c65cd619f1a3305f89c
             Statement s = con.createStatement();
             s.executeUpdate("CREATE DATABASE IF NOT EXISTS " + user + ";");
             s.executeUpdate("INSERT INTO creds VALUES('" + user + "','" + password + "');");
@@ -101,22 +109,20 @@ public class LoginController implements Initializable
         anchor.getChildren().add(bar);
         anchor.setStyle("-fx-background-color: #17181b");
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "test", "password");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "root", "root");
             s = con.createStatement();
             ResultSet num = s.executeQuery("SELECT COUNT(*) as something FROM movie;");
             num.next();
             int count = num.getInt("something");
-            System.out.println(count);
             ResultSet r = s.executeQuery("SELECT NAME FROM movie;");
             while (r.next()) {
                 left_list.getItems().add(r.getString(1));
             }
-            System.out.println(left_list.getItems());
             ResultSet r1 = s.executeQuery("SELECT MID FROM poster;");
             while (r1.next()) {
                 posterno.getItems().add(r1.getInt("MID"));
             }
-            System.out.println(posterno.getItems());
+
             ResultSet r2 = s.executeQuery("SELECT PATH FROM poster;");
             while (r2.next()) {
                 poster_list.getItems().add(r2.getString("PATH"));
@@ -126,9 +132,8 @@ public class LoginController implements Initializable
             for(i=1;i<=count;i++)
             {
 
-                //j=i/9+1;
-                //i1=i%9;
-                j++;
+                j=i/9+1;
+                i1=i%9;
                 if(i1==0)
                     i1=9;
                 if(posterno.getItems().contains(i))
@@ -139,7 +144,8 @@ public class LoginController implements Initializable
                 Label al = new Label(left_list.getItems().get(i-1));
                 Image image = new Image("/"+path);
                 ImageView imgview = new ImageView(image);
-                System.out.println(232323);
+                imgview.setFitHeight(266);
+                imgview.setFitWidth(180);
                 imgview.setLayoutX(210*i1-180);
                 imgview.setLayoutY(316*j-264);
                 anchor.getChildren().add(imgview);
@@ -150,9 +156,49 @@ public class LoginController implements Initializable
                 while (r3.next()) {
                     yr.setText(Integer.toString(r3.getInt("YEAR")));
                 }
+                Label rating = new Label();
+                rating.setPrefHeight(25);
+                rating.setStyle("-fx-font-weight: bold; -fx-text-fill: White;-fx-font-size: 17px;");
+                ResultSet r4 = s.executeQuery(" select RATING from movie natural join movie_det where ID="+i+";");
+                while (r4.next()) {
+                    rating.setText(Double.toString(r4.getDouble("RATING")));
+                }
+                rating.setText(rating.getText().indexOf(".") < 0 ? rating.getText() : rating.getText().replaceAll("0*$", "").replaceAll("\\.$", ""));
+                rating.setText(rating.getText()+"/10");
+                rating.setLayoutX(210*i1-60);
+                rating.setLayoutY(316*j-30);
                 yr.setLayoutX(210*i1-180);yr.setLayoutY(316*j+22);yr.setPrefSize(150,25);
                 yr.setStyle("-fx-font-weight: bold;  -fx-text-fill: #5b5b5b;-fx-font-size: 13px;");
                 anchor.getChildren().add(yr);
+                ColorAdjust colorAdjust = new ColorAdjust();
+                colorAdjust.setBrightness(-0.35);
+                DropShadow borderGlow = new DropShadow();
+                borderGlow.setColor(Color.DEEPSKYBLUE);
+                borderGlow.setHeight(30);
+                borderGlow.setWidth(30);
+                borderGlow.setInput(colorAdjust);
+                imgview.setOnMouseEntered(event -> {
+
+                    imgview.setEffect(borderGlow);
+                    anchor.getChildren().add(rating);
+                });
+                imgview.setOnMouseExited(event -> {
+                    imgview.setEffect(null);
+                    anchor.getChildren().remove(rating);
+                });
+
+                int finalI = i;
+                imgview.setOnMouseClicked(event -> {
+
+                    Parent root = null;
+                    integer = finalI;
+                    try {
+                        root = FXMLLoader.load(getClass().getResource("movie.fxml"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Main.stage.setScene(new Scene(root, 1920, 1080));
+                });
             }
             if(j>3)
             {
