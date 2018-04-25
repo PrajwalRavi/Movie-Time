@@ -19,6 +19,8 @@
 /.idea
 *.rar
 *.idea
+/DBMS-Project.iml
+DBMS-Project.iml
 .idea/
 **/.idea/
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
