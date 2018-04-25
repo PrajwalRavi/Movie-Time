@@ -30,7 +30,12 @@ public class SearchController {
         String category = fiter.getText();
         if(category.equalsIgnoreCase("director"))
         {
-            ResultSet result = s.executeQuery("SELECT DIRECTOR.NAME,MOVIE.NAME FROM ((MOVIE INNER JOIN MOVIE_DET ON MOVIE.ID=MOVIE_DET.ID) INNER JOIN DIRECTOR ON DIRECTOR.DID = MOVIE_DET.DID);");
+            ResultSet result = s.executeQuery("SELECT DIRECTOR.NAME,MOVIE.NAME FROM ((MOVIE INNER JOIN MOVIE_DET ON " +
+                    "MOVIE.ID=MOVIE_DET.ID) INNER JOIN DIRECTOR ON DIRECTOR.DID = MOVIE_DET.DID) ORDER BY DIRECTOR.NAME;");
+        }
+        else if(category.equalsIgnoreCase("prod house"))
+        {
+            ResultSet result = s.executeQuery("SELECT PRODHOUSE.NAME,MOVIE.NAME FROM ((MOVIE INNER JOIN MOVIE_DET ON MOVIE.ID=MOVIE_DET.ID) INNER JOIN PRODHOUSE ON PRODHOUSE.PID = MOVIE_DET.PID) ORDER BY PRODHOUSE.NAME;");
         }
     }
 

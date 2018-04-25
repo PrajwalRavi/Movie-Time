@@ -1,4 +1,6 @@
-import java.awt.*;
+
+import javafx.scene.control.TextField;
+
 import java.sql.*;
 
 public class InsertController {
@@ -47,7 +49,7 @@ public class InsertController {
         //movie_det
         String query1 =  "SELECT PID FROM PRODHOUSE WHERE NAME = ?;";
         String query2 = "SELECT DID FROM DIRECTOR WHERE NAME = ?;";
-        String query3 = "SELECT ID FROM MOVIE WHERE NAME IS = ?;";
+        String query3 = "SELECT ID FROM MOVIE WHERE NAME = ?;";
         PreparedStatement p1 = con.prepareStatement(query1);
         PreparedStatement p2 = con.prepareStatement(query2);
         PreparedStatement p3 = con.prepareStatement(query3);
@@ -80,7 +82,7 @@ public class InsertController {
         s5.execute();
 
         //subtitles
-        PreparedStatement s6 = con.prepareStatement("INSERT INTO SUBTITLES(MID,SID,PATH,LANG) VALIUES(?,NULL,?,?);");
+        PreparedStatement s6 = con.prepareStatement("INSERT INTO SUBTITLES(MID,SID,PATH,LANG) VALUES(?,NULL,?,?);");
         s6.setInt(1,m_id);
         s6.setString(2,spath);
         s6.setString(3,slang);

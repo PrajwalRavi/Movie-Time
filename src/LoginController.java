@@ -76,7 +76,7 @@ public class LoginController implements Initializable
         String user = username2.getText();
         String password = password2.getText();
         if(password2.getText().equals(password3.getText())) {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/akhil", "test", "password");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "test", "password");
             Statement s = con.createStatement();
             s.executeUpdate("CREATE DATABASE IF NOT EXISTS " + user + ";");
             s.executeUpdate("INSERT INTO creds VALUES('" + user + "','" + password + "');");
