@@ -25,11 +25,4 @@ public class Main extends Application
         //primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
     }
-
-    public void reg() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("reg_des.fxml"));
-        Stage reg_stage = new Stage();
-        reg_stage.setScene(new Scene(root,1280,720));
-        reg_stage.show();
-    }
 }

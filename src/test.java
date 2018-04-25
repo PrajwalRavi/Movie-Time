@@ -1,30 +1,25 @@
-
-import javafx.scene.control.TextField;
-
 import java.sql.*;
 
-public class InsertController {
+public class test {
 
+    public static void main(String[] args) throws SQLException {
 
-    public TextField Movie_name,Year,Rating,Genre,Spath,Ppath,Mpath,Dname,Dage,Ddob,Prodname,Prodceo,Cast,Slang,Box;
-
-    public void InsertIntoTables() throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + LoginController.name, "test", "password");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/praj", "test", "password");
         Statement p = con.createStatement();
-        String movie_name = Movie_name.getText();
-        int year = Integer.parseInt(Year.getText());
-        double rating = Double.parseDouble(Rating.getText());
-        String genre = Genre.getText();
-        String spath = Spath.getText();
-        String ppath = Ppath.getText();
-        String mpath = Mpath.getText();
-        String dname = Dname.getText();
-        int dage = Integer.parseInt(Dage.getText());
-        String prodname = Prodname.getText();
-        String prodceo = Prodceo.getText();
-        String cast  = Cast.getText();
-        String slang = Slang.getText();
-        double box = Double.parseDouble(Box.getText());
+        String movie_name = "Avengers";
+        int year = 2013;
+        double rating = 9.2;
+        String genre = "fiction";
+        String spath = "";
+        String ppath = "/home/prajwal/Downloads/img.jpg";
+        String mpath = "/media/prajwal/A47E84577E8423E0/Desktop/Heaven/Movies/Phase2/Avengers.mkv";
+        String dname = "Nolan";
+        int dage = 75;
+        String prodname = "Marvel";
+        String prodceo = "Bill Gte";
+        String cast = "Robert Downey";
+        String slang = "Eng";
+        double box = 1;
 
 
         //prodhouse
@@ -94,5 +89,4 @@ public class InsertController {
         s7.execute();
 
     }
-
 }
