@@ -16,6 +16,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -133,6 +134,24 @@ public class LoginController implements Initializable
         icon.setLayoutY(22);
         icon.setFill(Color.WHITE);
         icon.setSize("20");
+        FontAwesomeIconView logout = new FontAwesomeIconView(FontAwesomeIcon.SIGN_OUT);
+        logout.setLayoutX(1825);
+        logout.setLayoutY(25);
+        logout.setFill(Color.WHITE);
+        logout.setSize("25");
+        logout.setOnMouseClicked(event -> {
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(getClass().getResource("log_des.fxml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Main.stage.hide();
+            Main.stage.setScene(new Scene(root,940,520));
+            Main.stage.setMaxHeight(540);
+            Main.stage.setMaxWidth(960);
+            Main.stage.show();
+        });
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "root", "root");
             s = con.createStatement();
@@ -156,9 +175,8 @@ public class LoginController implements Initializable
             int i,j=1,i1=1;
             for(i=1;i<=count;i++)
             {
-
                 j=i/9+1;
-                i1=i%9;
+                i1=i%9+1;
                 if(i1==0)
                     i1=9;
                 if(posterno.getItems().contains(i))
@@ -223,6 +241,11 @@ public class LoginController implements Initializable
                         e.printStackTrace();
                     }
                     Main.stage.setScene(new Scene(root, 1920, 1080));
+                    Main.stage.hide();
+                    Main.stage.setMaxHeight(1080);
+                    Main.stage.setMaxWidth(1920);
+                    Main.stage.show();
+                    Main.stage.setMaximized(true);
                 });
             }
             if(j>3)
@@ -253,7 +276,12 @@ public class LoginController implements Initializable
         outer.getChildren().addAll(sp);
         outer.getChildren().add(search);
         outer.getChildren().add(icon);
+        outer.getChildren().add(logout);
         Main.stage.setScene(new Scene(outer, 1920, 1080));
+        Main.stage.hide();
+        Main.stage.setMaxHeight(1080);
+        Main.stage.setMaxWidth(1920);
+        Main.stage.show();
         Main.stage.setMaximized(true);
     }
 
@@ -296,6 +324,32 @@ public class LoginController implements Initializable
         icon.setLayoutY(22);
         icon.setFill(Color.WHITE);
         icon.setSize("20");
+        FontAwesomeIconView back = new FontAwesomeIconView(FontAwesomeIcon.ARROW_LEFT);
+        back.setLayoutX(1575);
+        back.setLayoutY(22);
+        back.setFill(Color.WHITE);
+        back.setSize("20");
+        back.setOnMouseClicked(event -> {
+            display();
+        });
+        FontAwesomeIconView logout = new FontAwesomeIconView(FontAwesomeIcon.SIGN_OUT);
+        logout.setLayoutX(1825);
+        logout.setLayoutY(25);
+        logout.setFill(Color.WHITE);
+        logout.setSize("25");
+        logout.setOnMouseClicked(event -> {
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(getClass().getResource("log_des.fxml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Main.stage.hide();
+            Main.stage.setScene(new Scene(root,940,520));
+            Main.stage.setMaxHeight(540);
+            Main.stage.setMaxWidth(960);
+            Main.stage.show();
+        });
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "root", "root");
             s = con.createStatement();
@@ -385,7 +439,11 @@ public class LoginController implements Initializable
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    Main.stage.hide();
                     Main.stage.setScene(new Scene(root, 1920, 1080));
+                    Main.stage.setMaxHeight(1080);
+                    Main.stage.setMaxWidth(1920);
+                    Main.stage.show();
                 });
             }
             if(j>3)
@@ -416,7 +474,13 @@ public class LoginController implements Initializable
         outer.getChildren().addAll(sp);
         outer.getChildren().add(search);
         outer.getChildren().add(icon);
+        outer.getChildren().add(back);
+        outer.getChildren().add(logout);
         Main.stage.setScene(new Scene(outer, 1920, 1080));
+        Main.stage.hide();
+        Main.stage.setMaxHeight(1080);
+        Main.stage.setMaxWidth(1920);
+        Main.stage.show();
         Main.stage.setMaximized(true);
     }
 }

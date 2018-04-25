@@ -21,7 +21,7 @@ public class Main extends Application
         stage = primaryStage;
         Parent root = FXMLLoader.load(getClass().getResource("log_des.fxml"));
         primaryStage.setTitle("Login or Sign Up");
-        primaryStage.setScene(new Scene(root,960,540));
+        primaryStage.setScene(new Scene(root,940,520));
         //primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
     }
