@@ -119,7 +119,7 @@ public class LoginController implements Initializable
                 "    -fx-prompt-text-fill: white ;\n" +
                 "    -fx-text-fill:black;-fx-border: 0;\n" +
                 "\t-fx-background:transparent;\n" +
-                "  \t-fx-border-color: transparent transparent white transparent;\n" +
+                "  \t-fx-border-color: transparent transparent transparent transparent;\n" +
                 "\t-webkit-transition: color 5s;\n" +
                 "\t-moz-transition:    color 5s;\n" +
                 "\t-ms-transition:     color 5s;\n" +
@@ -280,9 +280,9 @@ public class LoginController implements Initializable
                 "    -fx-background-insets: 0, 0 0 1 0 ;\n" +
                 "    -fx-background-radius: 0 ;\n" +
                 "    -fx-prompt-text-fill: white ;\n" +
-                "    -fx-text-fill:black;-fx-border: 0;\n" +
+                " -fx-border: 0;\n" +
                 "\t-fx-background:transparent;\n" +
-                "  \t-fx-border-color: transparent transparent white transparent;\n" +
+                "  \t-fx-border-color: transparent transparent transparent transparent;\n" +
                 "\t-webkit-transition: color 5s;\n" +
                 "\t-moz-transition:    color 5s;\n" +
                 "\t-ms-transition:     color 5s;\n" +
