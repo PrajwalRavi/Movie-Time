@@ -50,9 +50,8 @@ public class LoginController implements Initializable
         name = username.getText();
         pass = password.getText();
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/akhil", "root", "root");
-            ResultSet valid = con.createStatement().executeQuery("SELECT * FROM creds WHERE uname='" + name + "' AND " +
-                    "password='" + pass + "';");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "test", "password");
+            ResultSet valid = con.createStatement().executeQuery("SELECT * FROM creds WHERE uname='"+name+"' AND password='"+pass+"';");
             if (!valid.next())
                 throw new Exception("Invalid login");       //NEW SCREEN HERE AKHIL
 
@@ -67,7 +66,7 @@ public class LoginController implements Initializable
     public PasswordField password2,password3;
 
     public void createTables(String user) throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + user, "root", "root");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + user, "test", "password");
         Statement s = con.createStatement();
         s.executeUpdate("CREATE TABLE PRODHOUSE(PID INT AUTO_INCREMENT ,NAME VARCHAR(100),CEO VARCHAR(100),PRIMARY KEY(PID));");
         s.executeUpdate("CREATE TABLE DIRECTOR(DID INT AUTO_INCREMENT, NAME VARCHAR(80), AGE INT NOT NULL,PRIMARY KEY(DID));");
@@ -82,12 +81,13 @@ public class LoginController implements Initializable
     }
 
     public void onClickRegister() throws SQLException {
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "test", "password");
+        Statement s = con.createStatement();
         String user = username2.getText();
         String password = password2.getText();
-        if(password2.getText().equals(password3.getText())) {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/akhil", "root", "root");
-            s.executeUpdate("CREATE DATABASE IF NOT EXISTS " + user + ";");
-            s.executeUpdate("INSERT INTO creds VALUES('" + user + "','" + password + "');");
+        if(password.equals(password3.getText())) {
+            int a = s.executeUpdate("CREATE DATABASE IF NOT EXISTS " + user + ";");
+            int b = s.executeUpdate("INSERT INTO creds VALUES('" + user + "','" + password + "');");
             createTables(user);
         }
 
@@ -153,22 +153,25 @@ public class LoginController implements Initializable
             Main.stage.show();
         });
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "root", "root");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "test", "password");
             s = con.createStatement();
-            ResultSet num = s.executeQuery("SELECT COUNT(*) as something FROM movie;");
+            ResultSet num = s.executeQuery("SELECT COUNT(*) as something FROM MOVIE;");
             num.next();
             int count = num.getInt("something");
-            ResultSet r = s.executeQuery("SELECT NAME FROM movie;");
+            System.out.println(count);
+            ResultSet r = s.executeQuery("SELECT NAME FROM MOVIE;");
             while (r.next()) {
                 left_list.getItems().add(r.getString(1));
             }
-            ResultSet r1 = s.executeQuery("SELECT MID FROM poster;");
+            ResultSet r1 = s.executeQuery("SELECT MID FROM POSTER;");
             while (r1.next()) {
                 posterno.getItems().add(r1.getInt("MID"));
             }
 
-            ResultSet r2 = s.executeQuery("SELECT PATH FROM poster;");
+            ResultSet r2 = s.executeQuery("SELECT PATH FROM POSTER;");
             while (r2.next()) {
+                System.out.println(r2.getString("PATH"));
+
                 poster_list.getItems().add(r2.getString("PATH"));
             }
 
@@ -183,9 +186,10 @@ public class LoginController implements Initializable
                 {
                     path = poster_list.getItems().get(posterno.getItems().indexOf(i));
                 }
+                System.out.println(path);
                 Label yr = new Label();
                 Label al = new Label(left_list.getItems().get(i-1));
-                Image image = new Image("/"+path);
+                Image image = new Image("file:/home/prajwal/Downloads/img.png");
                 ImageView imgview = new ImageView(image);
                 imgview.setFitHeight(266);
                 imgview.setFitWidth(180);
@@ -195,14 +199,14 @@ public class LoginController implements Initializable
                 al.setLayoutX(210*i1-180);al.setLayoutY(316*j+4);al.setPrefSize(150,25);
                 al.setStyle("-fx-font-weight: bold; -fx-text-fill: White;-fx-font-size: 15px;");
                 anchor.getChildren().add(al);
-                ResultSet r3 = s.executeQuery(" select YEAR from movie natural join movie_det where ID="+i+";");
+                ResultSet r3 = s.executeQuery(" select YEAR from MOVIE natural join MOVIE_DET where ID="+i+";");
                 while (r3.next()) {
                     yr.setText(Integer.toString(r3.getInt("YEAR")));
                 }
                 Label rating = new Label();
                 rating.setPrefHeight(25);
                 rating.setStyle("-fx-font-weight: bold; -fx-text-fill: White;-fx-font-size: 17px;");
-                ResultSet r4 = s.executeQuery(" select RATING from movie natural join movie_det where ID="+i+";");
+                ResultSet r4 = s.executeQuery(" select RATING from MOVIE natural join MOVIE_DET where ID="+i+";");
                 while (r4.next()) {
                     rating.setText(Double.toString(r4.getDouble("RATING")));
                 }
@@ -257,7 +261,8 @@ public class LoginController implements Initializable
                 anchor.getChildren().add(hbox);
             }
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            System.out.println("FSGDRGFGD");
             e.printStackTrace();
         }
 
