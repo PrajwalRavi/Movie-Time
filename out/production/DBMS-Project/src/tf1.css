@@ -1,0 +1,86 @@
+.root {
+	-fx-background-color: #17181b;
+	-fx-font-size: 20px;
+	-fx-font-family: 'Arial';
+}
+.text-field {
+	-fx-text-box-border: transparent;
+    -fx-background-color: -fx-text-box-border, -fx-background ;
+    -fx-background-insets: 0, 0 0 1 0 ;
+    -fx-background-radius: 0 ;
+    -fx-prompt-text-fill: white ;
+    -fx-text-fill:white;
+}
+
+.text-field {
+	-fx-border: 0;
+	-fx-background:transparent;
+  	-fx-border-color: transparent transparent black transparent;
+	-webkit-transition: color 5s;
+	-moz-transition:    color 5s;
+	-ms-transition:     color 5s;
+	-o-transition:      color 5s;
+	transition:         color 5s;
+  	-fx-border-width:1.75px;
+  	-fx-padding: 4 7 4 27;
+}
+.text-field:focused {
+    -fx-border: 0;
+	-fx-background:transparent;
+  	-fx-border-color: transparent transparent #fbcb29 transparent;
+  	-fx-border-width:1.75px;
+  	-fx-padding: 4 7 4 27;
+  }
+
+.button{
+	-fx-background-color: #fbcb29;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+}
+.button:hover{
+	-fx-background-color: #fbcb29;
+	-fx-text-fill: #ee9a0f;
+	-fx-font-weight: bold;
+}
+.tab-pane *.tab-header-background {
+	-fx-background-color: transparent;
+	-fx-effect: null;
+	-fx-background:transparent;
+}
+
+.tab{
+	-fx-background-color: transparent;
+	-fx-font-size:20px ;
+	-fx-font-weight: bold;
+	-fx-text-fill: black;
+	-fx-border-width:1.75px;
+}
+
+#SIGNIN.tab:selected{
+	-fx-border-color: transparent transparent #fbcb29 transparent;
+}
+
+#SIGNUP.tab:selected{
+	-fx-border-color: transparent transparent #fbcb29 transparent;
+}
+
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+	-fx-border-width: 1;
+	-fx-border-color: transparent;
+}
+
+#forgot{
+	-fx-background-color: transparent;
+	-fx-text-fill: black;
+	-fx-font-weight: normal;
+}
+#forgot:hover{
+	-fx-text-fill: #fbcb29;
+}
+
+.scroll-pane{
+	-fx-padding:21.5em;
+}
+.image-view:hover{
+
+}

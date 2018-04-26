@@ -40,7 +40,7 @@ public class movie implements Initializable {
     Statement s;
     {
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + user, "root", "root");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + user, "test", "password");
             s = con.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -63,7 +63,7 @@ public class movie implements Initializable {
                 lv.getItems().add(num.getInt("something"));
             }
             k= lv.getItems().get(i-1);
-            r3 = s.executeQuery(" select * from movie_det where ID="+k+";");
+            r3 = s.executeQuery(" select * from MOVIE_DET where ID="+k+";");
             r3.next();
             year.setText(Integer.toString(r3.getInt("YEAR")));
             rating.setText(Double.toString(r3.getDouble("RATING")));
@@ -71,14 +71,14 @@ public class movie implements Initializable {
             rating.setText(rating.getText()+"/10");
             genre.setText(r3.getString("GENRE"));
             box.setText(Integer.toString(r3.getInt("BOX")));
-            r3 = s.executeQuery("select * from director natural join movie_det where ID="+k+";");
+            r3 = s.executeQuery("select * from DIRECTOR natural join MOVIE_DET where ID="+k+";");
             r3.next();
             director.setText(r3.getString("NAME"));
             directorage.setText(Integer.toString(r3.getInt("AGE")));
-            r3 = s.executeQuery("select CNAME from movcast where MID="+k+";");
+            r3 = s.executeQuery("select CNAME from MOVCAST where MID="+k+";");
             r3.next();
             cast.setText(r3.getString("CNAME"));
-            r3 = s.executeQuery("select * from prodhouse natural join movie_det where ID="+k+";");
+            r3 = s.executeQuery("select * from PRODHOUSE natural join MOVIE_DET where ID="+k+";");
             r3.next();
             production.setText(r3.getString("NAME"));
             ceo.setText(r3.getString("CEO"));

@@ -41,7 +41,7 @@ public class InsertController implements Initializable {
     String posterpath;
 
     public void InsertIntoTables() throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + LoginController.name, "root", "root");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + LoginController.name, "test", "password");
         con.setAutoCommit(false);
         Statement p = con.createStatement();
         String movie_name = name.getText();
@@ -59,18 +59,48 @@ public class InsertController implements Initializable {
         String slang = sublang.getText();
         double box = Double.parseDouble(boxs.getText());
 
+        int p_id,d_id,m_id;
 
         //prodhouse
-        PreparedStatement s = con.prepareStatement("INSERT INTO PRODHOUSE(NAME,CEO) VALUES(?,?);");
-        s.setString(1, prodname);
-        s.setString(2, prodceo);
-        s.execute();
+        ResultSet r = con.createStatement().executeQuery("SELECT * FROM PRODHOUSE WHERE NAME='"+prodname+"'");
+        if(r.next())
+        {
+            p_id = r.getInt("PID");
+        }
+        else
+        {
+            PreparedStatement s = con.prepareStatement("INSERT INTO PRODHOUSE(NAME,CEO) VALUES(?,?);");
+            s.setString(1, prodname);
+            s.setString(2, prodceo);
+            s.execute();
+            String query1 = "SELECT PID FROM PRODHOUSE WHERE NAME = ?;";
+            PreparedStatement p1 = con.prepareStatement(query1);
+            p1.setString(1, prodname);
+            ResultSet r1 = p1.executeQuery();
+            r1.next();
+            p_id = r1.getInt("PID");
+        }
 
         //director
-        PreparedStatement s2 = con.prepareStatement(("INSERT INTO DIRECTOR(NAME,AGE) VALUES(?,?);"));
-        s2.setString(1, dname);
-        s2.setInt(2, dage);
-        s2.execute();
+        r = con.createStatement().executeQuery("SELECT * FROM DIRECTOR WHERE NAME='"+dname+"';");
+        if(r.next())
+        {
+            d_id = r.getInt("DID");
+        }
+        else
+        {
+            PreparedStatement s2 = con.prepareStatement(("INSERT INTO DIRECTOR(NAME,AGE) VALUES(?,?);"));
+            s2.setString(1, dname);
+            s2.setInt(2, dage);
+            s2.execute();
+            String query2 = "SELECT DID FROM DIRECTOR WHERE NAME = ?;";
+            PreparedStatement p2 = con.prepareStatement(query2);
+            p2.setString(1, dname);
+            ResultSet r2 = p2.executeQuery();
+            r2.next();
+            d_id = r2.getInt("DID");
+        }
+
 
         //movie
         PreparedStatement s3 = con.prepareStatement("INSERT INTO MOVIE(PATH,NAME) VALUES(?,?);");
@@ -79,33 +109,24 @@ public class InsertController implements Initializable {
         s3.execute();
 
         //movie_det
-        String query1 = "SELECT PID FROM PRODHOUSE WHERE NAME = ?;";
-        String query2 = "SELECT DID FROM DIRECTOR WHERE NAME = ?;";
         String query3 = "SELECT ID FROM MOVIE WHERE NAME = ?;";
-        PreparedStatement p1 = con.prepareStatement(query1);
-        PreparedStatement p2 = con.prepareStatement(query2);
         PreparedStatement p3 = con.prepareStatement(query3);
-        p1.setString(1, prodname);
-        p2.setString(1, dname);
         p3.setString(1, movie_name);
-        ResultSet r1 = p1.executeQuery();
-        r1.next();
-        int p_id = r1.getInt("PID");
-        ResultSet r2 = p2.executeQuery();
-        r2.next();
-        int d_id = r2.getInt("DID");
         ResultSet r3 = p3.executeQuery();
         r3.next();
-        int m_id = r3.getInt("ID");
-        PreparedStatement s4 = con.prepareStatement("INSERT INTO MOVIE_DET(ID,DID,PID,YEAR,RATING,GENRE,WATCHED,BOX) VALUES(?,?,?,?,?,?,0,?);");
+         m_id = r3.getInt("ID");
+        PreparedStatement s4 = con.prepareStatement("INSERT INTO MOVIE_DET(ID,DID,PID,YEAR,RATING,WATCHED,BOX) VALUES(?,?,?,?,?,0,?);");
         s4.setInt(1, m_id);
         s4.setInt(2, d_id);
         s4.setInt(3, p_id);
         s4.setInt(4, year);
         s4.setDouble(5, rating);
-        s4.setString(6, genre);
-        s4.setDouble(7, box);
+        s4.setDouble(6, box);
         s4.execute();
+
+        String ar[] = genre.split(",");
+        for (int i=0; i<ar.length; i++)
+            con.createStatement().executeUpdate("INSERT INTO GENRE VALUES("+m_id+",'"+ar[i]+"');");
 
         //poster
         PreparedStatement s5 = con.prepareStatement("INSERT INTO POSTER(MID,PID,PATH) VALUES(?,NULL,?);");

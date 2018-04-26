@@ -67,7 +67,7 @@ public class UpdateController implements Initializable {
     Statement s;
     {
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + LoginController.name, "root", "root");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + LoginController.name, "test", "password");
             s = con.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();
