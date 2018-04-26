@@ -1,30 +1,63 @@
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 
+import java.io.File;
+import java.net.URL;
 import java.sql.*;
+import java.util.ResourceBundle;
 
-public class InsertController {
+public class InsertController implements Initializable {
 
-
-    public TextField Movie_name,Year,Rating,Genre,Spath,Ppath,Mpath,Dname,Dage,Ddob,Prodname,Prodceo,Cast,Slang,Box;
+    @FXML ImageView image;
+    @FXML TextField name;
+    @FXML TextField director;
+    @FXML TextField directorage;
+    @FXML TextField casts;
+    @FXML TextField years;
+    @FXML TextField time;
+    @FXML TextField size;
+    @FXML TextField Genre;
+    @FXML TextField boxs;
+    @FXML TextField production;
+    @FXML TextField ceo;
+    @FXML TextField Rating;
+    @FXML TextField sublang;
+    @FXML Label moviep;
+    @FXML Label subp;
+    @FXML FontAwesomeIconView plus;
+    @FXML AnchorPane background;
+    String posterpath;
 
     public void InsertIntoTables() throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + LoginController.name, "test", "password");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + LoginController.name, "root", "root");
+        con.setAutoCommit(false);
         Statement p = con.createStatement();
-        String movie_name = Movie_name.getText();
-        int year = Integer.parseInt(Year.getText());
+        String movie_name = name.getText();
+        int year = Integer.parseInt(years.getText());
         double rating = Double.parseDouble(Rating.getText());
         String genre = Genre.getText();
-        String spath = Spath.getText();
-        String ppath = Ppath.getText();
-        String mpath = Mpath.getText();
-        String dname = Dname.getText();
-        int dage = Integer.parseInt(Dage.getText());
-        String prodname = Prodname.getText();
-        String prodceo = Prodceo.getText();
-        String cast  = Cast.getText();
-        String slang = Slang.getText();
-        double box = Double.parseDouble(Box.getText());
+        String spath = "file:"+subp.getText();
+        String ppath = posterpath;
+        String mpath = "file:"+moviep.getText();
+        String dname = director.getText();
+        int dage = Integer.parseInt(directorage.getText());
+        String prodname = production.getText();
+        String prodceo = ceo.getText();
+        String cast  = casts.getText();
+        String slang = sublang.getText();
+        double box = Double.parseDouble(boxs.getText());
 
 
         //prodhouse
@@ -85,14 +118,66 @@ public class InsertController {
         s6.setInt(1, m_id);
         s6.setString(2, spath);
         s6.setString(3, slang);
-        s.execute();
+        s6.execute();
 
         //movie cast
         PreparedStatement s7 = con.prepareStatement("INSERT INTO MOVCAST(MID,CNAME) VALUES(?,?);");
         s7.setInt(1, m_id);
         s7.setString(2, cast);
         s7.execute();
+        con.commit();
+        con.close();
+        back();
+    }
 
+    public void insertposter(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose File");
+        File file =fileChooser.showOpenDialog(Main.stage);
+        if(file!=null)
+        {
+            image.setImage(new Image("file:"+file.getAbsolutePath()));
+            posterpath = "file:"+file.getAbsolutePath();
+            background.getChildren().remove(plus);
+        }
+
+    }
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        DropShadow borderGlow = new DropShadow();
+        borderGlow.setColor(Color.DEEPSKYBLUE);
+        borderGlow.setHeight(30);
+        borderGlow.setWidth(30);
+        image.setImage(new Image("images/new.jpg"));
+        image.setEffect(borderGlow);
+    }
+
+    public void choosemovie(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose File");
+        File file =fileChooser.showOpenDialog(Main.stage);
+        if(file!=null)
+        {
+            moviep.setText(file.getAbsolutePath().toString());
+            moviep.setAlignment(Pos.CENTER_LEFT);
+        }
+    }
+
+    public void choosesub(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose File");
+        File file =fileChooser.showOpenDialog(Main.stage);
+        if(file!=null)
+        {
+            subp.setText(file.getAbsolutePath().toString());
+            subp.setAlignment(Pos.CENTER_LEFT);
+        }
+    }
+
+    public void back()
+    {
+        LoginController l = new LoginController();
+        l.display();
     }
 
 }

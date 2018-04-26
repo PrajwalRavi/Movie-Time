@@ -50,11 +50,11 @@ public class LoginController implements Initializable
         name = username.getText();
         pass = password.getText();
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "test", "password");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/akhil", "root", "root");
             ResultSet valid = con.createStatement().executeQuery("SELECT * FROM creds WHERE uname='"+name+"' AND password='"+pass+"';");
             if (!valid.next())
                 throw new Exception("Invalid login");       //NEW SCREEN HERE AKHIL
-
+            con.close();
             display();
 
         } catch (Exception e) {
@@ -66,7 +66,7 @@ public class LoginController implements Initializable
     public PasswordField password2,password3;
 
     public void createTables(String user) throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + user, "test", "password");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + user, "root", "root");
         Statement s = con.createStatement();
         s.executeUpdate("CREATE TABLE PRODHOUSE(PID INT AUTO_INCREMENT ,NAME VARCHAR(100),CEO VARCHAR(100),PRIMARY KEY(PID));");
         s.executeUpdate("CREATE TABLE DIRECTOR(DID INT AUTO_INCREMENT, NAME VARCHAR(80), AGE INT NOT NULL,PRIMARY KEY(DID));");
@@ -81,7 +81,7 @@ public class LoginController implements Initializable
     }
 
     public void onClickRegister() throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "test", "password");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/akhil", "root", "root");
         Statement s = con.createStatement();
         String user = username2.getText();
         String password = password2.getText();
@@ -153,43 +153,85 @@ public class LoginController implements Initializable
             Main.stage.show();
         });
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "test", "password");
-            s = con.createStatement();
-            ResultSet num = s.executeQuery("SELECT COUNT(*) as something FROM MOVIE;");
-            num.next();
-            int count = num.getInt("something");
-            System.out.println(count);
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "root", "root");
+            Statement s = con.createStatement();
+            ListView<Integer> lv = new ListView<Integer>();
+            ResultSet num = s.executeQuery("SELECT ID as something FROM MOVIE;");
+            while(num.next())
+            {
+                lv.getItems().add(num.getInt("something"));
+            }
             ResultSet r = s.executeQuery("SELECT NAME FROM MOVIE;");
+            left_list.getItems().clear();
             while (r.next()) {
                 left_list.getItems().add(r.getString(1));
             }
             ResultSet r1 = s.executeQuery("SELECT MID FROM POSTER;");
+            posterno.getItems().clear();
             while (r1.next()) {
                 posterno.getItems().add(r1.getInt("MID"));
             }
 
             ResultSet r2 = s.executeQuery("SELECT PATH FROM POSTER;");
+            poster_list.getItems().clear();
             while (r2.next()) {
-                System.out.println(r2.getString("PATH"));
 
                 poster_list.getItems().add(r2.getString("PATH"));
             }
 
+            Image newimg = new Image("images/new.jpg");
+            ImageView newimgview = new ImageView(newimg);
+            newimgview.setFitHeight(266);
+            newimgview.setFitWidth(180);
+            newimgview.setLayoutX(30);
+            newimgview.setLayoutY(52);
+            DropShadow borderGlow2 = new DropShadow();
+            borderGlow2.setColor(Color.WHITE);
+            borderGlow2.setHeight(30);
+            borderGlow2.setWidth(30);
+            newimgview.setEffect(borderGlow2);
+            newimgview.setOnMouseEntered(event -> {
+                borderGlow2.setColor(Color.DEEPSKYBLUE);
+                newimgview.setEffect(borderGlow2);
+            });
+            newimgview.setOnMouseExited(event -> {
+                borderGlow2.setColor(Color.WHITE);
+                newimgview.setEffect(borderGlow2);
+            });
+            newimgview.setOnMouseClicked(event -> {
+                Parent root = null;
+                try {
+                    con.close();
+                    root = FXMLLoader.load(getClass().getResource("add.fxml"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                Main.stage.setScene(new Scene(root, 1920, 1080));
+
+            });
+            FontAwesomeIconView newicon = new FontAwesomeIconView(FontAwesomeIcon.PLUS_CIRCLE);
+            newicon.setLayoutX(107.5);
+            newicon.setLayoutY(195);
+            newicon.setFill(Color.WHITE);
+            newicon.setSize("35");
+            anchor.getChildren().add(newimgview);
+            anchor.getChildren().add(newicon);
+            Label newlabel = new Label("Insert Movie");
+            newlabel.setLayoutX(65);newlabel.setLayoutY(325);newlabel.setPrefSize(150,25);
+            newlabel.setStyle("-fx-font-weight: bold; -fx-text-fill: White;-fx-font-size: 18px;");
+            anchor.getChildren().add(newlabel);
             int i,j=1,i1=1;
-            for(i=1;i<=count;i++)
+            for(i=1;i<=lv.getItems().size();i++)
             {
+                int k = lv.getItems().get(i-1);
                 j=i/9+1;
                 i1=i%9+1;
                 if(i1==0)
                     i1=9;
-                if(posterno.getItems().contains(i))
-                {
-                    path = poster_list.getItems().get(posterno.getItems().indexOf(i));
-                }
-                System.out.println(path);
+                path = poster_list.getItems().get(i-1);
                 Label yr = new Label();
                 Label al = new Label(left_list.getItems().get(i-1));
-                Image image = new Image("file:/home/prajwal/Downloads/img.png");
+                Image image = new Image(path);
                 ImageView imgview = new ImageView(image);
                 imgview.setFitHeight(266);
                 imgview.setFitWidth(180);
@@ -199,14 +241,14 @@ public class LoginController implements Initializable
                 al.setLayoutX(210*i1-180);al.setLayoutY(316*j+4);al.setPrefSize(150,25);
                 al.setStyle("-fx-font-weight: bold; -fx-text-fill: White;-fx-font-size: 15px;");
                 anchor.getChildren().add(al);
-                ResultSet r3 = s.executeQuery(" select YEAR from MOVIE natural join MOVIE_DET where ID="+i+";");
+                ResultSet r3 = s.executeQuery(" select YEAR from MOVIE natural join MOVIE_DET where ID="+k+";");
                 while (r3.next()) {
                     yr.setText(Integer.toString(r3.getInt("YEAR")));
                 }
                 Label rating = new Label();
                 rating.setPrefHeight(25);
                 rating.setStyle("-fx-font-weight: bold; -fx-text-fill: White;-fx-font-size: 17px;");
-                ResultSet r4 = s.executeQuery(" select RATING from MOVIE natural join MOVIE_DET where ID="+i+";");
+                ResultSet r4 = s.executeQuery(" select RATING from MOVIE natural join MOVIE_DET where ID="+k+";");
                 while (r4.next()) {
                     rating.setText(Double.toString(r4.getDouble("RATING")));
                 }
@@ -262,7 +304,6 @@ public class LoginController implements Initializable
             }
 
         } catch (Exception e) {
-            System.out.println("FSGDRGFGD");
             e.printStackTrace();
         }
 
@@ -288,7 +329,29 @@ public class LoginController implements Initializable
         Main.stage.setMaxWidth(1920);
         Main.stage.show();
         Main.stage.setMaximized(true);
+
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void display( ListView<Integer> listView)
     {
@@ -358,19 +421,25 @@ public class LoginController implements Initializable
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "root", "root");
             s = con.createStatement();
-            ResultSet num = s.executeQuery("SELECT COUNT(*) as something FROM movie;");
-            num.next();
-            int count = num.getInt("something");
+            ListView<Integer> lv = new ListView<Integer>();
+            ResultSet num = s.executeQuery("SELECT ID as something FROM MOVIE;");
+            while(num.next())
+            {
+                lv.getItems().add(num.getInt("something"));
+            }
             ResultSet r = s.executeQuery("SELECT NAME FROM movie;");
+            left_list.getItems().clear();
             while (r.next()) {
                 left_list.getItems().add(r.getString(1));
             }
             ResultSet r1 = s.executeQuery("SELECT MID FROM poster;");
+            posterno.getItems().clear();
             while (r1.next()) {
                 posterno.getItems().add(r1.getInt("MID"));
             }
 
             ResultSet r2 = s.executeQuery("SELECT PATH FROM poster;");
+            poster_list.getItems().clear();
             while (r2.next()) {
                 poster_list.getItems().add(r2.getString("PATH"));
             }
@@ -388,8 +457,8 @@ public class LoginController implements Initializable
                     path = poster_list.getItems().get(posterno.getItems().indexOf(k));
                 }
                 Label yr = new Label();
-                Label al = new Label(left_list.getItems().get(k-1));
-                Image image = new Image("/"+path);
+                Label al = new Label(left_list.getItems().get(lv.getItems().indexOf(k)));
+                Image image = new Image(path);
                 ImageView imgview = new ImageView(image);
                 imgview.setFitHeight(266);
                 imgview.setFitWidth(180);
@@ -425,7 +494,6 @@ public class LoginController implements Initializable
                 borderGlow.setWidth(30);
                 borderGlow.setInput(colorAdjust);
                 imgview.setOnMouseEntered(event -> {
-
                     imgview.setEffect(borderGlow);
                     anchor.getChildren().add(rating);
                 });

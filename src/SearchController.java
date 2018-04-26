@@ -8,7 +8,7 @@ public class SearchController {
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + LoginController.name, "root", "root");
         ListView<Integer> ids = new ListView<Integer>();
         Statement s = con.createStatement();
-        ResultSet movies = s.executeQuery("SELECT movie.ID FROM MOVIE JOIN MOVIE_DET WHERE MOVIE.ID=MOVIE_DET.ID AND (MOVIE.NAME LIKE '%"+word+"%' OR GENRE LIKE '%"+word+"%');");
+        ResultSet movies = s.executeQuery("SELECT movie.ID as ID FROM MOVIE JOIN MOVIE_DET WHERE MOVIE.ID=MOVIE_DET.ID AND (MOVIE.NAME LIKE '%"+word+"%' OR GENRE LIKE '%"+word+"%');");
         while (movies.next())
         {
             int a = movies.getInt("ID");

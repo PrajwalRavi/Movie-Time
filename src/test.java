@@ -4,9 +4,9 @@ public class test {
 
     public static void main(String[] args) throws SQLException {
 
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/praj", "test", "password");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/p", "root", "root");
         Statement p = con.createStatement();
-        String movie_name = "Avengers";
+        String movie_name = "As";
         int year = 2013;
         double rating = 9.2;
         String genre = "fiction";
@@ -88,5 +88,8 @@ public class test {
         s7.setString(2, cast);
         s7.execute();
 
+        ResultSet r = con.createStatement().executeQuery("SELECT * FROM MOVIE");
+        while (r.next())
+        System.out.println(r.getString("NAME"));
     }
 }
