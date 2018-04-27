@@ -6,8 +6,7 @@ public class Details {
 
     public void getUserMovies() throws SQLException {
         String name = LoginController.name;
-        String pass = LoginController.pass;
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+name, "root", "root");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+name, "test", "password");
         ResultSet movies = con.createStatement().executeQuery("SELECT * FROM MOVIE JOIN MOVIE_DET WHERE MOVIE.ID=MOVIE_DET.ID;");
         ResultSet dirs =  con.createStatement().executeQuery("SELECT * FROM DIRECTOR JOIN MOVIE_DET WHERE DIRECTOR.DID=MOVIE_DET.DID;");
         ResultSet houses = con.createStatement().executeQuery("SELECT * FROM MOVIE_DET JOIN PRODHOUSE WHERE MOVIE_DET.PID=PRODHOUSE.PID;");
@@ -17,12 +16,21 @@ public class Details {
             out.println("\t\t\t\t\t\t\tMOVIES");
             while (movies.next() && dirs.next() && houses.next() && cast.next())
             {
-                out.println("Movie name : "+movies.getString("NAME"));
-                out.println("Year of Release: "+movies.getInt("YEAR"));
-                out.println("Box-office: $"+movies.getInt("BOX")+"000000");
-                out.println("Director: "+dirs.getString("NAME"));
+                ResultSet cas = con.createStatement().executeQuery("SELECT CNAME FROM MOVCAST WHERE MID="+movies.getInt("ID"));
+                String str="";
+                while (cas.next())
+                    str+=cas.getString("CNAME")+" , ";
+                String st="";
+                cas = con.createStatement().executeQuery("SELECT TYPE FROM GENRE WHERE ID="+movies.getInt("ID"));
+                while (cas.next())
+                    st+=cas.getString("TYPE")+" , ";
+                out.println("Movie name :      "+movies.getString("NAME"));
+                out.println("Year of Release:  "+movies.getInt("YEAR"));
+                out.println("Box-office:       $"+movies.getInt("BOX")+"000000");
+                out.println("Director:         "+dirs.getString("NAME"));
                 out.println("Production House: "+houses.getString("NAME"));
-                out.println("Cast: "+cast.getString("CNAME"));
+                out.println("Cast:             "+str);
+                out.println("Genre:            "+st);
                 out.println();
             }
             out.close();
