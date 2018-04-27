@@ -41,7 +41,7 @@ public class LoginController implements Initializable
     public void onClickLogin() throws SQLException {
         name = username.getText();
         pass = password.getText();
-        new Details().getUserMovies();
+       // new Details().getUserMovies();
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "test","password");
             ResultSet valid = con.createStatement().executeQuery("SELECT * FROM creds WHERE uname='"+name+"' AND password='"+pass+"';");
