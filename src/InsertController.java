@@ -188,10 +188,10 @@ public class InsertController implements Initializable {
             s6.execute();
 
             //movie cast
-            PreparedStatement s7 = con.prepareStatement("INSERT INTO MOVCAST(MID,CNAME) VALUES(?,?);");
-            s7.setInt(1, m_id);
-            s7.setString(2, cast);
-            s7.execute();
+            String br[] = cast.split(",");
+            for (int i = 0; i < br.length; i++)
+                con.createStatement().executeUpdate("INSERT INTO MOVCAST(MID,CNAME) VALUES(" + m_id + ",'" + br[i] + "');");
+
             con.close();
             back();
         }

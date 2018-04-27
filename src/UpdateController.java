@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
@@ -8,8 +9,11 @@ import java.util.ResourceBundle;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -133,6 +137,18 @@ public class UpdateController implements Initializable {
             image.setImage(new Image("images/new.jpg"));
             image.setEffect(borderGlow);
         }
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("movie.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Main.stage.setScene(new Scene(root, 1920, 1080));
+        Main.stage.hide();
+        Main.stage.setMaxHeight(1080);
+        Main.stage.setMaxWidth(1920);
+        Main.stage.show();
+        Main.stage.setMaximized(true);
     }
 
    
@@ -172,20 +188,23 @@ public class UpdateController implements Initializable {
             Rating.setText(Rating.getText());
             boxs.setText(Integer.toString(r3.getInt("BOX")));
             time.setText(Integer.toString(r3.getInt("LENGTH")));
-            size.setText(Integer.toString(r3.getInt("SIZE")));
+            size.setText(Double.toString(r3.getDouble("SIZE")));
             r3 = s.executeQuery("select TYPE from genre where ID="+k+";");
             String g ="";
             while(r3.next()) {
-                g+=r3.getString("TYPE");
+                g+=r3.getString("TYPE")+", ";
             }
-            Genre.setText(g);
+            Genre.setText(g.substring(0,g.length()-2));
             r3 = s.executeQuery("select * from director natural join movie_det where ID="+k+";");
             r3.next();
             director.setText(r3.getString("NAME"));
             directorage.setText(Integer.toString(r3.getInt("AGE")));
-            r3 = s.executeQuery("select CNAME from movcast where MID="+k+";");
-            r3.next();
-            casts.setText(r3.getString("CNAME"));
+            r3 = s.executeQuery("select CNAME from MOVCAST where MID="+k+";");
+            String c ="";
+            while(r3.next()) {
+                c+=r3.getString("CNAME")+", ";
+            }
+            casts.setText(c.substring(0,c.length()-2));
             r3 = s.executeQuery("select * from prodhouse natural join movie_det where ID="+k+";");
             r3.next();
             production.setText(r3.getString("NAME"));
@@ -371,15 +390,17 @@ public class UpdateController implements Initializable {
                 e.printStackTrace();
             }
         });
+
     }
 
-    public void choosemovie() {
+    public void choosemovie()  {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose File");
         File file = fileChooser.showOpenDialog(Main.stage);
         if (file != null) {
             moviep.setText(file.getAbsolutePath().toString());
             moviep.setAlignment(Pos.CENTER_LEFT);
+
 
             double s;
             s = file.length();
@@ -392,16 +413,44 @@ public class UpdateController implements Initializable {
                 size.setText("0");
             }
             size.setText(size.getText() + " GB");
+
+            String query7 = "UPDATE MOVIE_DET SET SIZE = ? WHERE ID = ?;";
+            String query8 = "UPDATE MOVIE SET PATH = ? WHERE ID = ?;";
+            PreparedStatement p8 = null;
+            try {
+                PreparedStatement p7 = con.prepareStatement(query7);
+                p8 = con.prepareStatement(query8);
+                p7.setInt(2,k);
+                p7.setDouble(1, Double.parseDouble(size.getText().substring(0,size.getText().length()-3)));
+                p8.setInt(2,k);
+                p8.setString(1,moviep.getText());
+                p7.executeUpdate();
+                p8.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+
+
         }
     }
 
-    public void choosesub() {
+    public void choosesub()  {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose File");
         File file = fileChooser.showOpenDialog(Main.stage);
         if (file != null) {
             subp.setText(file.getAbsolutePath().toString());
             subp.setAlignment(Pos.CENTER_LEFT);
+            String query9 = "UPDATE SUBTITLES SET PATH = ? WHERE MID= ?;";
+            try {
+                PreparedStatement p9 = con.prepareStatement(query9);
+                p9.setInt(2,k);
+                p9.setString(1,subp.getText());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -77,7 +77,7 @@
                 <Font size="23.0" />
             </font>
         </TextField>
-        <Button layoutX="931.0" layoutY="925.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="214.0" text="Update" />
+        <Button layoutX="931.0" layoutY="925.0" mnemonicParsing="false" onMouseClicked="#update" prefHeight="60.0" prefWidth="214.0" text="Update" />
         <FontAwesomeIconView fx:id="plus" glyphName="PLUS_CIRCLE" layoutX="396.0" layoutY="472.0" size="35" />
         <Label fx:id="moviep" alignment="CENTER" layoutX="810.0" layoutY="172.0" prefHeight="50.0" prefWidth="517.0" text="No Movie Choosen" textFill="wheat">
             <font>

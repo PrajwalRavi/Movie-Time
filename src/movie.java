@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
@@ -71,20 +72,23 @@ public class movie implements Initializable {
             rating.setText(rating.getText()+"/10");
             box.setText(Integer.toString(r3.getInt("BOX")));
             time.setText(Integer.toString(r3.getInt("LENGTH")));
-            size.setText(Integer.toString(r3.getInt("SIZE")));
+            size.setText(Double.toString(r3.getDouble("SIZE")));
             r3 = s.executeQuery("select TYPE from genre where ID="+k+";");
             String g ="";
             while(r3.next()) {
-                g+=r3.getString("TYPE");
+                g+=r3.getString("TYPE") + ", ";
             }
-            genre.setText(g);
+            genre.setText(g.substring(0,g.length()-2));
             r3 = s.executeQuery("select * from DIRECTOR natural join MOVIE_DET where ID="+k+";");
             r3.next();
             director.setText(r3.getString("NAME"));
             directorage.setText(Integer.toString(r3.getInt("AGE")));
             r3 = s.executeQuery("select CNAME from MOVCAST where MID="+k+";");
-            r3.next();
-            cast.setText(r3.getString("CNAME"));
+            String c ="";
+            while(r3.next()) {
+                c+=r3.getString("CNAME")+", ";
+            }
+            cast.setText(c.substring(0,c.length()-2));
             r3 = s.executeQuery("select * from PRODHOUSE natural join MOVIE_DET where ID="+k+";");
             r3.next();
             production.setText(r3.getString("NAME"));
@@ -151,4 +155,19 @@ public class movie implements Initializable {
         Main.stage.setScene(new Scene(root, 1920, 1080));
     }
 
+    public void play(){
+        try {
+            ResultSet r3 = s.executeQuery("select PATH from movie where ID="+k+";");
+            r3.next();
+            String moviep,subp;
+            moviep = r3.getString("PATH");
+            r3 = s.executeQuery("select * from subtitles where MID="+k+";");
+            r3.next();
+
+            subp=r3.getString("PATH");
+            Process p = Runtime.getRuntime().exec("vlc "+moviep);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
