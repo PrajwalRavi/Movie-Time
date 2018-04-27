@@ -7,7 +7,7 @@ public class Details {
     public void getUserMovies() throws SQLException {
         String name = LoginController.name;
         String pass = LoginController.pass;
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+name, "test", "password");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+name, "root", "root");
         ResultSet movies = con.createStatement().executeQuery("SELECT * FROM MOVIE JOIN MOVIE_DET WHERE MOVIE.ID=MOVIE_DET.ID;");
         ResultSet dirs =  con.createStatement().executeQuery("SELECT * FROM DIRECTOR JOIN MOVIE_DET WHERE DIRECTOR.DID=MOVIE_DET.DID;");
         ResultSet houses = con.createStatement().executeQuery("SELECT * FROM MOVIE_DET JOIN PRODHOUSE WHERE MOVIE_DET.PID=PRODHOUSE.PID;");
@@ -33,7 +33,7 @@ public class Details {
     }
 
     public void getDirectors() throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+LoginController.name, "test", "password");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+LoginController.name, "root", "root");
         ResultSet dir = con.createStatement().executeQuery("SELECT * FROM DIRECTOR;");
         try {
             PrintWriter out = new PrintWriter("/home/prajwal/Desktop/director.txt");
@@ -52,7 +52,7 @@ public class Details {
     }
 
     public void getProds() throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+LoginController.name, "test", "password");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+LoginController.name, "root", "root");
         ResultSet pro = con.createStatement().executeQuery("SELECT * FROM PRODHOUSE;");
         try {
             PrintWriter out = new PrintWriter("/home/prajwal/Desktop/prod.txt");

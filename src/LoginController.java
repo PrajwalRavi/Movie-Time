@@ -43,7 +43,7 @@ public class LoginController implements Initializable
         pass = password.getText();
        // new Details().getUserMovies();
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "test","password");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/akhil", "root","root");
             ResultSet valid = con.createStatement().executeQuery("SELECT * FROM creds WHERE uname='"+name+"' AND password='"+pass+"';");
             if (!valid.next())
                 throw new Exception("Invalid login");       //NEW SCREEN HERE AKHIL
@@ -59,7 +59,7 @@ public class LoginController implements Initializable
     public PasswordField password2,password3;
 
     public void createTables(String user) throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + user, "test","password");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + user, "root","root");
         Statement s = con.createStatement();
         s.executeUpdate("CREATE TABLE PRODHOUSE(PID INT AUTO_INCREMENT ,NAME VARCHAR(100),CEO VARCHAR(100),PRIMARY KEY(PID));");
         s.executeUpdate("CREATE TABLE DIRECTOR(DID INT AUTO_INCREMENT, NAME VARCHAR(80), AGE INT NOT NULL,PRIMARY KEY(DID));");
@@ -75,7 +75,7 @@ public class LoginController implements Initializable
     }
 
     public void onClickRegister() throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "test", "password");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/akhil", "root", "root");
         Statement s = con.createStatement();
         String user = username2.getText();
         String password = password2.getText();
@@ -147,7 +147,7 @@ public class LoginController implements Initializable
             Main.stage.show();
         });
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "test", "password");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "root", "root");
             Statement s = con.createStatement();
             ListView<Integer> lv = new ListView<Integer>();
             ResultSet num = s.executeQuery("SELECT ID as something FROM MOVIE;");
@@ -327,26 +327,6 @@ public class LoginController implements Initializable
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public void display( ListView<Integer> listView)
     {
         AnchorPane outer = new AnchorPane();
@@ -413,7 +393,7 @@ public class LoginController implements Initializable
             Main.stage.show();
         });
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "test","password");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "root","root");
             s = con.createStatement();
             ListView<Integer> lv = new ListView<Integer>();
             ResultSet num = s.executeQuery("SELECT ID as something FROM MOVIE;");

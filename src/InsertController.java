@@ -26,7 +26,7 @@ public class InsertController implements Initializable {
     @FXML TextField casts;
     @FXML TextField years;
     @FXML TextField time;
-    @FXML TextField size;
+    @FXML Label size;
     @FXML TextField Genre;
     @FXML TextField boxs;
     @FXML TextField production;
@@ -41,7 +41,7 @@ public class InsertController implements Initializable {
     String posterpath;
 
     public void InsertIntoTables() throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + LoginController.name, "test", "password");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + LoginController.name, "root", "root");
         String movie_name = name.getText();
         int year = Integer.parseInt(years.getText());
         double rating = Double.parseDouble(Rating.getText());
@@ -184,6 +184,7 @@ public class InsertController implements Initializable {
             moviep.setText(file.getAbsolutePath());
             moviep.setAlignment(Pos.CENTER_LEFT);
         }
+        size.setText(String.valueOf(file.length()/(1024*1024*1024)));
     }
 
     public void choosesub(){

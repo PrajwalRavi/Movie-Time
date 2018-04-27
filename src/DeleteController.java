@@ -2,7 +2,7 @@ import java.sql.*;
 
 public class DeleteController {
     public void DeleteFunction(int mid) throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + LoginController.name, "test", "password");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + LoginController.name, "root", "root");
         String query1 =  "SELECT PID FROM MOVIE_DET WHERE ID = ?;";
         String query2 = "SELECT DID FROM MOVIE_DET WHERE ID = ?;";
         PreparedStatement p1 = con.prepareStatement(query1);

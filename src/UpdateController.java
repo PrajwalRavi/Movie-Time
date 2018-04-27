@@ -71,7 +71,7 @@ public class UpdateController implements Initializable {
     Statement s;
     {
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + LoginController.name, "test", "password");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + LoginController.name, "root", "root");
             s = con.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -273,8 +273,15 @@ public class UpdateController implements Initializable {
             Rating.setText(Double.toString(r3.getDouble("RATING")));
             Rating.setText(Rating.getText().indexOf(".") < 0 ? Rating.getText() : Rating.getText().replaceAll("0*$", "").replaceAll("\\.$", ""));
             Rating.setText(Rating.getText());
-            Genre.setText(r3.getString("GENRE"));
             boxs.setText(Integer.toString(r3.getInt("BOX")));
+            time.setText(Integer.toString(r3.getInt("LENGTH")));
+            size.setText(Integer.toString(r3.getInt("SIZE")));
+            r3 = s.executeQuery("select TYPE from genre where ID="+k+";");
+            String g ="";
+            while(r3.next()) {
+                g+=r3.getString("TYPE");
+            }
+            Genre.setText(g);
             r3 = s.executeQuery("select * from director natural join movie_det where ID="+k+";");
             r3.next();
             director.setText(r3.getString("NAME"));

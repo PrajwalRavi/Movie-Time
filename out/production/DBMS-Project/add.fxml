@@ -41,11 +41,11 @@
                 <Font size="23.0" />
             </font>
         </TextField>
-        <TextField fx:id="size" layoutX="1352.0" layoutY="504.0" prefHeight="38.0" prefWidth="279.0" promptText="Size Of Movie in GB">
+        <Label fx:id="size" layoutX="1352.0" layoutY="504.0" prefHeight="38.0" prefWidth="279.0" text="Size Of Movie in GB">
             <font>
                 <Font size="23.0" />
             </font>
-        </TextField>
+        </Label>
         <FontAwesomeIconView fill="WHITE" glyphName="CLOSE" layoutX="1865.0" layoutY="49.0" size="30.0" onMouseClicked="#back"/>
         <TextField fx:id="Genre" layoutX="748.0" layoutY="592.0" prefHeight="50.0" prefWidth="587.0" promptText="Genre">
             <font>
