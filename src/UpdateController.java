@@ -380,20 +380,19 @@ public class UpdateController implements Initializable {
         if (file != null) {
             moviep.setText(file.getAbsolutePath().toString());
             moviep.setAlignment(Pos.CENTER_LEFT);
+
+            double s;
+            s = file.length();
+            if (s > 1024 * 1024 * 102.4) {
+                s /= (double) 1024;
+                s /= (double) 1024;
+                s /= (double) 1024;
+                size.setText(Double.toString(s).substring(0, 4));
+            } else {
+                size.setText("0");
+            }
+            size.setText(size.getText() + " GB");
         }
-        double s;
-        s=file.length();
-        if(s>1024*1024*102.4)
-        {
-            s/=(double)1024;
-            s/=(double)1024;
-            s/=(double)1024;
-            size.setText(Double.toString(s).substring(0,4));
-        }
-        else {
-            size.setText("0");
-        }
-        size.setText(size.getText()+" GB");
     }
 
     public void choosesub() {

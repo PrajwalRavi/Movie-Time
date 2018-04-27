@@ -231,24 +231,22 @@ public class InsertController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose File");
         File file =fileChooser.showOpenDialog(Main.stage);
-        if(file!=null)
-        {
+        if(file!=null) {
             moviep.setText(file.getAbsolutePath());
             moviep.setAlignment(Pos.CENTER_LEFT);
+
+            double s;
+            s = file.length();
+            if (s > 1024 * 1024 * 102.4) {
+                s /= (double) 1024;
+                s /= (double) 1024;
+                s /= (double) 1024;
+                size.setText(Double.toString(s).substring(0, 4));
+            } else {
+                size.setText("0");
+            }
+            size.setText(size.getText() + " GB");
         }
-        double s;
-        s=file.length();
-        if(s>1024*1024*102.4)
-        {
-            s/=(double)1024;
-            s/=(double)1024;
-            s/=(double)1024;
-            size.setText(Double.toString(s).substring(0,4));
-        }
-        else {
-            size.setText("0");
-        }
-        size.setText(size.getText()+" GB");
 
     }
 
