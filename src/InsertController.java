@@ -93,7 +93,6 @@ public class InsertController implements Initializable {
                 r2.next();
                 d_id = r2.getInt("DID");
             }
-
             //movie
             PreparedStatement s3 = con.prepareStatement("INSERT INTO MOVIE(PATH,NAME) VALUES(?,?);");
             s3.setString(1, mpath);

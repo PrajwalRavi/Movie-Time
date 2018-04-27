@@ -8,4 +8,11 @@
 	-fx-background-color: #fbcb29;
 	-fx-text-fill: #ee9a0f;
 	-fx-font-weight: bold;
+	-fx-font-family: serif;
+}
+
+.label{
+	-fx-font: 34px "Philosopher";
+	-fx-font-weight: bold;
+	-fx-text-fill: #f9ffe2;
 }

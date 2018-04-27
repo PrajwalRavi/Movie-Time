@@ -38,7 +38,8 @@ public class LoginController implements Initializable
         pavan.getSelectionModel().select(SIGNIN);
     }
 
-    public void onClickLogin() throws SQLException {
+    public void onClickLogin() throws SQLException, IOException {
+        System.out.println(javafx.scene.text.Font.getFamilies());
         name = username.getText();
         pass = password.getText();
         new Details().getUserMovies();
@@ -85,6 +86,12 @@ public class LoginController implements Initializable
             createTables(user);
         }
 
+    }
+
+    public void onClickDelete() throws SQLException {
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "test", "password");
+        con.createStatement().executeUpdate("DROP SCHEMA "+username.getText()+";");
+        con.createStatement().executeUpdate("DELETE FROM creds WHERE uname='"+username.getText()+"';");
     }
 
     public TextField search= new TextField();

@@ -13,7 +13,7 @@
         <ImageView fx:id="image" fitHeight="764.0" fitWidth="517.0" layoutX="144.0" layoutY="84.0" onMouseClicked="#insertposter" />
         <TextField fx:id="name" layoutX="748.0" layoutY="84.0" prefHeight="63.0" prefWidth="279.0" promptText="Movie_Name">
             <font>
-                <Font size="34.0" />
+                <Font size="34.0"  />
             </font>
         </TextField>
         <TextField fx:id="director" layoutX="882.0" layoutY="240.0" prefHeight="38.0" prefWidth="279.0" promptText="Director_Name">
