@@ -41,7 +41,7 @@ public class Details {
     }
 
     public void getDirectors() throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+LoginController.name, "test", "password");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+LoginController.name, "root", "root");
         ResultSet dir = con.createStatement().executeQuery("SELECT * FROM DIRECTOR;");
         try {
             PrintWriter out = new PrintWriter("/home/prajwal/Desktop/director.txt");
@@ -60,7 +60,7 @@ public class Details {
     }
 
     public void getProds() throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+LoginController.name, "test", "password");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+LoginController.name, "root", "root");
         ResultSet pro = con.createStatement().executeQuery("SELECT * FROM PRODHOUSE;");
         try {
             PrintWriter out = new PrintWriter("/home/prajwal/Desktop/prod.txt");

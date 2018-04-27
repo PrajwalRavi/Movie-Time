@@ -40,7 +40,7 @@ public class movie implements Initializable {
     Statement s;
     {
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + user, "test", "password");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + user, "root", "root");
             s = con.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -69,8 +69,15 @@ public class movie implements Initializable {
             rating.setText(Double.toString(r3.getDouble("RATING")));
             rating.setText(rating.getText().indexOf(".") < 0 ? rating.getText() : rating.getText().replaceAll("0*$", "").replaceAll("\\.$", ""));
             rating.setText(rating.getText()+"/10");
-            genre.setText(r3.getString("GENRE"));
             box.setText(Integer.toString(r3.getInt("BOX")));
+            time.setText(Integer.toString(r3.getInt("LENGTH")));
+            size.setText(Integer.toString(r3.getInt("SIZE")));
+            r3 = s.executeQuery("select TYPE from genre where ID="+k+";");
+            String g ="";
+            while(r3.next()) {
+                g+=r3.getString("TYPE");
+            }
+            genre.setText(g);
             r3 = s.executeQuery("select * from DIRECTOR natural join MOVIE_DET where ID="+k+";");
             r3.next();
             director.setText(r3.getString("NAME"));
@@ -82,9 +89,6 @@ public class movie implements Initializable {
             r3.next();
             production.setText(r3.getString("NAME"));
             ceo.setText(r3.getString("CEO"));
-            ////////////////////////////////////////***********/////////////////////////////////////////
-            //////////////////////////////////////////////*/////////////////////////////////////////////
-            /////////////////////// RUNNING TIME & SIZE  ////////////////////////////////////////////////
 
         } catch (SQLException e) {
             e.printStackTrace();

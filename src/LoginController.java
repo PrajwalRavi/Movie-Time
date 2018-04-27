@@ -9,6 +9,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -35,19 +36,61 @@ public class LoginController implements Initializable
     //* @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+
         pavan.getSelectionModel().select(SIGNIN);
+        username.setOnKeyReleased(event -> {
+            if(event.getCode()==(KeyCode.ENTER))
+            {
+                password.requestFocus();
+            }
+        });
+        password.setOnKeyReleased(event -> {
+            if(event.getCode()==(KeyCode.ENTER))
+            {
+                try {
+                    onClickLogin();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        username2.setOnKeyReleased(event -> {
+            if(event.getCode()==(KeyCode.ENTER))
+            {
+                password2.requestFocus();
+            }
+        });
+        password2.setOnKeyReleased(event -> {
+            if(event.getCode()==(KeyCode.ENTER))
+            {
+                password3.requestFocus();
+            }
+        });
+        password3.setOnKeyReleased(event -> {
+            if(event.getCode()==(KeyCode.ENTER))
+            {
+                try {
+                    onClickRegister();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public void onClickLogin() throws SQLException, IOException {
         System.out.println(javafx.scene.text.Font.getFamilies());
         name = username.getText();
         pass = password.getText();
-        new Details().getUserMovies();
+       // new Details().getUserMovies();
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "test","password");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/akhil", "root","root");
             ResultSet valid = con.createStatement().executeQuery("SELECT * FROM creds WHERE uname='"+name+"' AND password='"+pass+"';");
             if (!valid.next())
-                throw new Exception("Invalid login");       //NEW SCREEN HERE AKHIL
+            {
+                AlertWindow.login("Wrong Credentials","Try Again");
+                return;
+            }
             con.close();
             display();
 
@@ -60,7 +103,7 @@ public class LoginController implements Initializable
     public PasswordField password2,password3;
 
     public void createTables(String user) throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + user, "test","password");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + user, "root","root");
         Statement s = con.createStatement();
         s.executeUpdate("CREATE TABLE PRODHOUSE(PID INT AUTO_INCREMENT ,NAME VARCHAR(100),CEO VARCHAR(100),PRIMARY KEY(PID));");
         s.executeUpdate("CREATE TABLE DIRECTOR(DID INT AUTO_INCREMENT, NAME VARCHAR(80), AGE INT NOT NULL,PRIMARY KEY(DID));");
@@ -71,12 +114,22 @@ public class LoginController implements Initializable
         s.executeUpdate("CREATE TABLE POSTER(MID INT,PID INT AUTO_INCREMENT,PATH VARCHAR(800), FOREIGN KEY Afr(MID) REFERENCES MOVIE(ID),PRIMARY KEY(PID));");
         s.executeUpdate("CREATE TABLE SUBTITLES(MID INT ,SID INT AUTO_INCREMENT,PATH VARCHAR(800),LANG VARCHAR(10),FOREIGN KEY Ajhg(MID) REFERENCES MOVIE(ID),PRIMARY KEY(SID));");
         s.executeUpdate("CREATE TABLE MOVCAST(ID INT AUTO_INCREMENT,MID INT,CNAME VARCHAR(300),FOREIGN KEY Apojh(MID) REFERENCES MOVIE(ID),PRIMARY KEY(ID));");
-
-
+        AlertWindow.login("Registration Succesful","Proceed");
+        pavan.getSelectionModel().select(SIGNIN);
     }
 
     public void onClickRegister() throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "test", "password");
+        if(username2.getText().equals("") )
+        {
+            AlertWindow.login("Username can't be null","Ok");
+            return;
+        }
+        if(password2.getText().equals("") )
+        {
+            AlertWindow.login("Password can't be null","Ok");
+            return;
+        }
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/akhil", "root", "root");
         Statement s = con.createStatement();
         String user = username2.getText();
         String password = password2.getText();
@@ -84,6 +137,9 @@ public class LoginController implements Initializable
             int a = s.executeUpdate("CREATE DATABASE IF NOT EXISTS " + user + ";");
             int b = s.executeUpdate("INSERT INTO creds VALUES('" + user + "','" + password + "');");
             createTables(user);
+        }
+        else {
+            AlertWindow.login("Passwords are not matching","OK");
         }
 
     }
@@ -154,7 +210,7 @@ public class LoginController implements Initializable
             Main.stage.show();
         });
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "test", "password");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "root", "root");
             Statement s = con.createStatement();
             ListView<Integer> lv = new ListView<Integer>();
             ResultSet num = s.executeQuery("SELECT ID as something FROM MOVIE;");
@@ -334,26 +390,6 @@ public class LoginController implements Initializable
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public void display( ListView<Integer> listView)
     {
         AnchorPane outer = new AnchorPane();
@@ -420,7 +456,7 @@ public class LoginController implements Initializable
             Main.stage.show();
         });
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "test","password");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "root","root");
             s = con.createStatement();
             ListView<Integer> lv = new ListView<Integer>();
             ResultSet num = s.executeQuery("SELECT ID as something FROM MOVIE;");
@@ -556,5 +592,20 @@ public class LoginController implements Initializable
         Main.stage.setMaxWidth(1920);
         Main.stage.show();
         Main.stage.setMaximized(true);
+    }
+
+    public void forgot(){
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/akhil", "root", "root");
+            Statement s = con.createStatement();
+            ResultSet r = s.executeQuery("select password from creds where uname='"+username.getText()+"';");
+            r.next();
+            AlertWindow.login("Password is "+r.getString("password"),"Continue");
+
+
+        }catch (Exception e){
+            AlertWindow.login("Write Correct Username ","Ok");
+        }
+
     }
 }

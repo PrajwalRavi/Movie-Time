@@ -81,6 +81,6 @@
 .scroll-pane{
 	-fx-padding:21.5em;
 }
-.image-view:hover{
-
+.text-field {
+	-fx-prompt-text-fill: #434343;
 }
