@@ -2,26 +2,19 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
-import java.security.Key;
 import java.sql.*;
 import java.util.ResourceBundle;
 
@@ -45,12 +38,12 @@ public class LoginController implements Initializable
         pavan.getSelectionModel().select(SIGNIN);
     }
 
-    public void onClickLogin() {
-
+    public void onClickLogin() throws SQLException {
         name = username.getText();
         pass = password.getText();
+       // new Details().getUserMovies();
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/akhil", "root", "root");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "test","password");
             ResultSet valid = con.createStatement().executeQuery("SELECT * FROM creds WHERE uname='"+name+"' AND password='"+pass+"';");
             if (!valid.next())
                 throw new Exception("Invalid login");       //NEW SCREEN HERE AKHIL
@@ -66,22 +59,23 @@ public class LoginController implements Initializable
     public PasswordField password2,password3;
 
     public void createTables(String user) throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + user, "root", "root");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + user, "test","password");
         Statement s = con.createStatement();
         s.executeUpdate("CREATE TABLE PRODHOUSE(PID INT AUTO_INCREMENT ,NAME VARCHAR(100),CEO VARCHAR(100),PRIMARY KEY(PID));");
         s.executeUpdate("CREATE TABLE DIRECTOR(DID INT AUTO_INCREMENT, NAME VARCHAR(80), AGE INT NOT NULL,PRIMARY KEY(DID));");
-        s.executeUpdate("CREATE TABLE MOVIE(ID INT AUTO_INCREMENT,PATH VARCHAR(100) NOT NULL,NAME VARCHAR(100) NOT NULL,PRIMARY KEY(ID));");
+        s.executeUpdate("CREATE TABLE MOVIE(ID INT AUTO_INCREMENT,PATH VARCHAR(1000) NOT NULL,NAME VARCHAR(100) NOT NULL,PRIMARY KEY(ID));");
         s.executeUpdate("ALTER TABLE MOVIE MODIFY ID INT(11) NOT NULL AUTO_INCREMENT;");
-        s.executeUpdate("CREATE TABLE MOVIE_DET(ID INT ,DID INT ,PID INT ,YEAR YEAR,RATING DOUBLE, GENRE VARCHAR(20),WATCHED BIT,BOX DOUBLE,FOREIGN KEY A(ID) REFERENCES MOVIE(ID),FOREIGN KEY B(DID) REFERENCES DIRECTOR(DID),FOREIGN KEY D(PID) REFERENCES PRODHOUSE(PID));");
-        s.executeUpdate("CREATE TABLE POSTER(MID INT,PID INT AUTO_INCREMENT,PATH VARCHAR(200), FOREIGN KEY Afr(MID) REFERENCES MOVIE_DET(ID),PRIMARY KEY(PID));");
-        s.executeUpdate("CREATE TABLE SUBTITLES(MID INT ,SID INT AUTO_INCREMENT,PATH VARCHAR(200),LANG VARCHAR(10),FOREIGN KEY Ajhg(MID) REFERENCES MOVIE_DET(ID),PRIMARY KEY(SID));");
-        s.executeUpdate("CREATE TABLE MOVCAST(ID INT AUTO_INCREMENT,MID INT,CNAME VARCHAR(300),FOREIGN KEY Apojh(MID) REFERENCES MOVIE_DET(ID),PRIMARY KEY(ID));");
+        s.executeUpdate("CREATE TABLE MOVIE_DET(ID INT ,DID INT ,PID INT ,YEAR YEAR,RATING DOUBLE, LENGTH INT, SIZE INT,WATCHED BIT,BOX DOUBLE,FOREIGN KEY A(ID) REFERENCES MOVIE(ID),FOREIGN KEY B(DID) REFERENCES DIRECTOR(DID),FOREIGN KEY D(PID) REFERENCES PRODHOUSE(PID));");
+        s.executeUpdate("CREATE TABLE GENRE(ID INT,TYPE VARCHAR(100),FOREIGN KEY GFDG(ID) REFERENCES MOVIE(ID));");
+        s.executeUpdate("CREATE TABLE POSTER(MID INT,PID INT AUTO_INCREMENT,PATH VARCHAR(800), FOREIGN KEY Afr(MID) REFERENCES MOVIE(ID),PRIMARY KEY(PID));");
+        s.executeUpdate("CREATE TABLE SUBTITLES(MID INT ,SID INT AUTO_INCREMENT,PATH VARCHAR(800),LANG VARCHAR(10),FOREIGN KEY Ajhg(MID) REFERENCES MOVIE(ID),PRIMARY KEY(SID));");
+        s.executeUpdate("CREATE TABLE MOVCAST(ID INT AUTO_INCREMENT,MID INT,CNAME VARCHAR(300),FOREIGN KEY Apojh(MID) REFERENCES MOVIE(ID),PRIMARY KEY(ID));");
 
 
     }
 
     public void onClickRegister() throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/akhil", "root", "root");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "test", "password");
         Statement s = con.createStatement();
         String user = username2.getText();
         String password = password2.getText();
@@ -153,7 +147,7 @@ public class LoginController implements Initializable
             Main.stage.show();
         });
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "root", "root");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "test", "password");
             Statement s = con.createStatement();
             ListView<Integer> lv = new ListView<Integer>();
             ResultSet num = s.executeQuery("SELECT ID as something FROM MOVIE;");
@@ -419,7 +413,7 @@ public class LoginController implements Initializable
             Main.stage.show();
         });
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "root", "root");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + name, "test","password");
             s = con.createStatement();
             ListView<Integer> lv = new ListView<Integer>();
             ResultSet num = s.executeQuery("SELECT ID as something FROM MOVIE;");

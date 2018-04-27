@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="background" prefHeight="1080.0" prefWidth="1920.0" stylesheets="tf3.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UpdateController">
+    <children>
+        <ImageView fx:id="image" fitHeight="764.0" fitWidth="517.0" layoutX="144.0" layoutY="84.0" onMouseClicked="#insertposter" />
+        <TextField fx:id="name" layoutX="748.0" layoutY="84.0" prefHeight="63.0" prefWidth="279.0" promptText="Movie_Name">
+            <font>
+                <Font size="34.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="director" layoutX="882.0" layoutY="240.0" prefHeight="38.0" prefWidth="279.0" promptText="Director_Name">
+            <font>
+                <Font size="23.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="directorage" layoutX="1349.0" layoutY="240.0" prefHeight="38.0" prefWidth="279.0" promptText="Director_Age">
+            <font>
+                <Font size="23.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="casts" layoutX="882.0" layoutY="328.0" prefHeight="38.0" prefWidth="579.0" promptText="Cast seperated by ','">
+            <font>
+                <Font size="23.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="years" layoutX="882.0" layoutY="416.0" prefHeight="38.0" prefWidth="279.0" promptText="Year Released">
+            <font>
+                <Font size="23.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="time" layoutX="882.0" layoutY="504.0" prefHeight="38.0" prefWidth="279.0" promptText="Running Time in hrs">
+            <font>
+                <Font size="23.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="size" layoutX="1352.0" layoutY="504.0" prefHeight="38.0" prefWidth="279.0" promptText="Size Of Movie in GB">
+            <font>
+                <Font size="23.0" />
+            </font>
+        </TextField>
+        <FontAwesomeIconView fill="WHITE" glyphName="CLOSE" layoutX="1865.0" layoutY="49.0" onMouseClicked="#back" size="30.0" />
+        <TextField fx:id="Genre" layoutX="882.0" layoutY="592.0" prefHeight="50.0" prefWidth="587.0" promptText="Genre">
+            <font>
+                <Font size="23.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="boxs" layoutX="1352.0" layoutY="416.0" prefHeight="38.0" prefWidth="279.0" promptText="Box Office">
+            <font>
+                <Font size="23.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="production" layoutX="904.0" layoutY="676.0" prefHeight="50.0" prefWidth="279.0" promptText="Production House">
+            <font>
+                <Font size="23.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="ceo" layoutX="1355.0" layoutY="676.0" prefHeight="50.0" prefWidth="279.0" promptText="CEO">
+            <font>
+                <Font size="23.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="Rating" layoutX="137.0" layoutY="930.0" prefHeight="38.0" prefWidth="279.0" promptText="Rating">
+            <font>
+                <Font size="23.0" />
+            </font>
+        </TextField>
+        <TextField fx:id="sublang" layoutX="941.0" layoutY="764.0" prefHeight="38.0" prefWidth="279.0" promptText="Subtitle_Language">
+            <font>
+                <Font size="23.0" />
+            </font>
+        </TextField>
+        <Button layoutX="931.0" layoutY="925.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="214.0" text="Update" />
+        <FontAwesomeIconView fx:id="plus" glyphName="PLUS_CIRCLE" layoutX="396.0" layoutY="472.0" size="35" />
+        <Label fx:id="moviep" alignment="CENTER" layoutX="810.0" layoutY="172.0" prefHeight="50.0" prefWidth="517.0" text="No Movie Choosen" textFill="wheat">
+            <font>
+                <Font size="23.0" />
+            </font>
+        </Label>
+        <Button fx:id="choosep" layoutX="1427.0" layoutY="172.0" mnemonicParsing="false" onMouseClicked="#choosemovie" prefHeight="50.0" prefWidth="199.0" text="Choose Movie" />
+        <Label fx:id="subp" alignment="CENTER" layoutX="799.0" layoutY="834.0" prefHeight="50.0" prefWidth="539.0" text="No Subtitle Choosen" textFill="wheat">
+            <font>
+                <Font size="23.0" />
+            </font>
+        </Label>
+        <Button fx:id="chooses" layoutX="1427.0" layoutY="834.0" mnemonicParsing="false" onMouseClicked="#choosesub" prefHeight="50.0" prefWidth="199.0" text="Choose Subtitle" />
+      <Label layoutX="686.0" layoutY="240.0" prefHeight="50.0" prefWidth="157.0" text="Director  :" textFill="wheat" />
+      <Label layoutX="686.0" layoutY="328.0" prefHeight="50.0" prefWidth="157.0" text="Cast  :" textFill="wheat" />
+      <Label layoutX="686.0" layoutY="416.0" prefHeight="50.0" prefWidth="157.0" text="Year  :" textFill="wheat" />
+      <Label layoutX="686.0" layoutY="504.0" prefHeight="50.0" prefWidth="157.0" text="Running Time :" textFill="wheat" />
+      <Label layoutX="686.0" layoutY="588.0" prefHeight="50.0" prefWidth="157.0" text="Genre  :" textFill="wheat" />
+      <Label layoutX="686.0" layoutY="676.0" prefHeight="50.0" prefWidth="214.0" text="Production House  :" textFill="wheat" />
+      <Label layoutX="686.0" layoutY="764.0" prefHeight="50.0" prefWidth="241.0" text="Subtitle Language :" textFill="wheat" />
+      <Label alignment="CENTER" layoutX="1176.0" layoutY="240.0" prefHeight="50.0" prefWidth="157.0" text="Age  :" textFill="wheat" />
+      <Label alignment="CENTER" layoutX="1181.0" layoutY="417.0" prefHeight="50.0" prefWidth="157.0" text="Box Office  :" textFill="wheat" />
+      <Label alignment="CENTER" layoutX="1181.0" layoutY="504.0" prefHeight="50.0" prefWidth="157.0" text="Size :" textFill="wheat" />
+      <Label alignment="CENTER" layoutX="1192.0" layoutY="676.0" prefHeight="50.0" prefWidth="157.0" text="CEO :" textFill="wheat" />
+    </children>
+</AnchorPane>
