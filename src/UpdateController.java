@@ -165,7 +165,7 @@ public class UpdateController implements Initializable {
             years.setText(Integer.toString(r3.getInt("YEAR")));
             Rating.setText(Double.toString(r3.getDouble("RATING")));
             Rating.setText(Rating.getText().indexOf(".") < 0 ? Rating.getText() : Rating.getText().replaceAll("0*$", "").replaceAll("\\.$", ""));
-            Rating.setText(Rating.getText()+"/10");
+            Rating.setText(Rating.getText());
             Genre.setText(r3.getString("GENRE"));
             boxs.setText(Integer.toString(r3.getInt("BOX")));
             r3 = s.executeQuery("select * from director natural join movie_det where ID="+k+";");
