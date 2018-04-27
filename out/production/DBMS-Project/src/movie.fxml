@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="background" prefHeight="1080.0" prefWidth="1920.0" stylesheets="tf2.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="movie">
+   <children>
+      <ImageView fx:id="image" fitHeight="764.0" fitWidth="517.0" layoutX="144.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="name" layoutX="748.0" layoutY="150.0" prefHeight="63.0" prefWidth="437.0" text="Label" textFill="WHITE">
+         <font>
+            <Font size="34.0" />
+         </font>
+      </Label>
+      <Label fx:id="director" layoutX="748.0" layoutY="257.0" prefHeight="38.0" prefWidth="279.0" text="Label" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="directorage" layoutX="1088.0" layoutY="257.0" prefHeight="38.0" prefWidth="279.0" text="Label" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="cast" layoutX="748.0" layoutY="345.0" prefHeight="38.0" prefWidth="579.0" text="Label" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="year" layoutX="748.0" layoutY="433.0" prefHeight="38.0" prefWidth="279.0" text="Label" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="time" layoutX="748.0" layoutY="521.0" prefHeight="38.0" prefWidth="279.0" text="Label" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="size" layoutX="1088.0" layoutY="521.0" prefHeight="38.0" prefWidth="279.0" text="Label" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <FontAwesomeIconView fill="WHITE" glyphName="CLOSE" layoutX="1865.0" layoutY="49.0" onMouseClicked="#back" size="30.0" />
+      <Label fx:id="genre" layoutX="748.0" layoutY="609.0" prefHeight="38.0" prefWidth="579.0" text="Label" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="box" layoutX="748.0" layoutY="697.0" prefHeight="38.0" prefWidth="279.0" text="Label" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="production" layoutX="748.0" layoutY="785.0" prefHeight="38.0" prefWidth="593.0" text="Label" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="ceo" layoutX="748.0" layoutY="877.0" prefHeight="38.0" prefWidth="526.0" text="Label" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="rating" layoutX="263.0" layoutY="958.0" prefHeight="38.0" prefWidth="279.0" text="Label" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Button layoutX="1602.0" layoutY="858.0" mnemonicParsing="false" onMouseClicked="#delete" prefHeight="38.0" prefWidth="140.0" text="Delete" />
+      <Button layoutX="1602.0" layoutY="785.0" mnemonicParsing="false" onMouseClicked="#Mohanty" prefHeight="38.0" prefWidth="140.0" text="Edit" />
+   </children>
+</AnchorPane>
