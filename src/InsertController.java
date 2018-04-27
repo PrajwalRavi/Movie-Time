@@ -39,8 +39,62 @@ public class InsertController implements Initializable {
     @FXML AnchorPane background;
     TextField message;
     String posterpath;
-
+    public int l=1;
     public void InsertIntoTables() throws SQLException {
+        try {
+        if(name.getText().equals(""))
+            name.setStyle("-fx-border-color: transparent transparent red transparent;");
+        if(director.getText().equals(""))
+            director.setStyle("-fx-border-color: transparent transparent red transparent;");
+        try {
+            Integer.parseInt(directorage.getText());
+        }catch (Exception e)
+        {
+            directorage.setStyle("-fx-border-color: transparent transparent red transparent;");
+        }
+        if(casts.getText().equals(""))
+            casts.setStyle("-fx-border-color: transparent transparent red transparent;");
+            try {
+                Integer.parseInt(years.getText());
+            }catch (Exception e)
+            {
+                years.setStyle("-fx-border-color: transparent transparent red transparent;");
+            }
+            try {
+                Integer.parseInt(boxs.getText());
+            }catch (Exception e)
+            {
+                boxs.setStyle("-fx-border-color: transparent transparent red transparent;");
+            }
+            try {
+                Integer.parseInt(time.getText());
+            }catch (Exception e)
+            {
+                time.setStyle("-fx-border-color: transparent transparent red transparent;");
+            }
+            if(Genre.getText().equals(""))
+                Genre.setStyle("-fx-border-color: transparent transparent red transparent;");
+            if(production.getText().equals(""))
+                production.setStyle("-fx-border-color: transparent transparent red transparent;");
+            if(ceo.getText().equals(""))
+                ceo.setStyle("-fx-border-color: transparent transparent red transparent;");
+            if(sublang.getText().equals(""))
+                sublang.setStyle("-fx-border-color: transparent transparent red transparent;");
+            try {
+                Integer.parseInt(Rating.getText());
+            }catch (Exception e)
+            {
+                Rating.setStyle("-fx-border-color: transparent transparent red transparent;");
+            }
+            if(l==1)
+            {
+                DropShadow borderGlow = new DropShadow();
+                borderGlow.setColor(Color.RED);
+                borderGlow.setHeight(30);
+                borderGlow.setWidth(30);
+                image.setImage(new Image("images/new.jpg"));
+                image.setEffect(borderGlow);
+            }
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + LoginController.name, "root", "root");
         String movie_name = name.getText();
         int year = Integer.parseInt(years.getText());
@@ -59,7 +113,7 @@ public class InsertController implements Initializable {
 
         int p_id,d_id,m_id;
         //message.setEditable(false);
-        try {
+
             //prodhouse
             ResultSet r = con.createStatement().executeQuery("SELECT * FROM PRODHOUSE WHERE NAME='" + prodname + "'");
             if (r.next()) {
@@ -143,12 +197,10 @@ public class InsertController implements Initializable {
         }
         catch (SQLException e)
         {
-           // message.setText("Invalid data entered");
             e.printStackTrace();
         }
         catch (Exception e)
         {
-           // message.setText("Error occurred");
             e.printStackTrace();
         }
     }
@@ -159,9 +211,9 @@ public class InsertController implements Initializable {
         File file =fileChooser.showOpenDialog(Main.stage);
         if(file!=null)
         {
+            l=0;
             image.setImage(new Image("file:"+file.getAbsolutePath()));
             posterpath = "file:"+file.getAbsolutePath();
-            background.getChildren().remove(plus);
         }
 
     }
@@ -184,7 +236,20 @@ public class InsertController implements Initializable {
             moviep.setText(file.getAbsolutePath());
             moviep.setAlignment(Pos.CENTER_LEFT);
         }
-        size.setText(String.valueOf(file.length()/(1024*1024*1024)));
+        double s;
+        s=file.length();
+        if(s>1024*1024*102.4)
+        {
+            s/=(double)1024;
+            s/=(double)1024;
+            s/=(double)1024;
+            size.setText(Double.toString(s).substring(0,4));
+        }
+        else {
+            size.setText("0");
+        }
+        size.setText(size.getText()+" GB");
+
     }
 
     public void choosesub(){

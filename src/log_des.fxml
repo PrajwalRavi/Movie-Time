@@ -23,7 +23,7 @@
                             <children>
                                 <TextField fx:id="username" focusTraversable="false" layoutX="33.0" layoutY="100.0" prefHeight="35.0" prefWidth="241.0" promptText="Username" />
                                 <PasswordField fx:id="password" focusTraversable="false" layoutX="33.0" layoutY="168.0" prefHeight="35.0" prefWidth="242.0" promptText="Password" />
-                                <Button fx:id="forgot" layoutX="33.0" layoutY="240.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="242.0" text="Forgot Password ?"/>
+                                <Button fx:id="forgot" layoutX="33.0" layoutY="240.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="242.0" text="Forgot Password ?" onAction="#forgot" />
                                 <Button fx:id="login_button" layoutX="33.0" layoutY="308.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="242.0" text="Login" onAction="#onClickLogin"/>
                                 <FontAwesomeIconView fill="black" glyphName="USER" layoutX="33.0" layoutY="125.0" size="25" wrappingWidth="25.300000190734863" />
                                 <FontAwesomeIconView fill="black" glyphName="KEY" layoutX="33.0" layoutY="193.0" size="25" wrappingWidth="25.300000190734863" />

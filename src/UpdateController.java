@@ -44,7 +44,7 @@ public class UpdateController implements Initializable {
     @FXML
     TextField time;
     @FXML
-    TextField size;
+    Label size;
     @FXML
     TextField Genre;
     @FXML
@@ -68,6 +68,7 @@ public class UpdateController implements Initializable {
     String posterpath;
     Connection con;
     public int k;
+    public int l=1;
     Statement s;
     {
         try {
@@ -79,163 +80,59 @@ public class UpdateController implements Initializable {
     }
     public void update() throws SQLException{
 
-        String query1 =  "SELECT PID FROM MOVIE_DET WHERE ID = ?;";
-        String query2 = "SELECT DID FROM MOVIE_DET WHERE ID = ?;";
-        PreparedStatement p1 = con.prepareStatement(query1);
-        PreparedStatement p2 = con.prepareStatement(query2);
-        p1.setInt(1,k);
-        p2.setInt(1,k);
-        ResultSet r1 = p1.executeQuery();
-        ResultSet r2 = p2.executeQuery();
-        r1.next();
-        r2.next();
-        int pid = r1.getInt("PID");
-        int did = r2.getInt("DID");
-        name.textProperty().addListener((observable, oldValue, newValue) -> {
-            String query = "UPDATE MOVIE SET NAME = "+ newValue + "WHERE ID = ?;";
-            PreparedStatement p3 = null;
-            try {
-                p3 = con.prepareStatement(query);
-                p3.setInt(1,k);
-                p3.executeQuery();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-        });
-        director.textProperty().addListener((observable, oldValue, newValue) -> {
-            String query = "UPDATE DIRECTOR SET NAME = " + newValue + "WHERE DID = ?;";
-            PreparedStatement p3 = null;
-            try {
-                p3 = con.prepareStatement(query);
-                p3.setInt(1,k);
-                p3.executeQuery();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-        directorage.textProperty().addListener((observable, oldValue, newValue) -> {
-            String query = "UPDATE DIRECTOR SET AGE = " + newValue + "WHERE DID = ?;";
-            PreparedStatement p3 = null;
-            try {
-                p3 = con.prepareStatement(query);
-                p3.setInt(1,did);
-                p3.executeQuery();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-        casts.textProperty().addListener((observable, oldValue, newValue) -> {
-            String query = "UPDATE MOVCAST SET CNAME = " + newValue+" WHERE ID = ?;";
-            PreparedStatement p3 = null;
-            try {
-                p3 = con.prepareStatement(query);
-                p3.setInt(1,k);
-                p3.executeQuery();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-        years.textProperty().addListener((observable, oldValue, newValue) -> {
-            String query = "UPDATE MOVIE_DET SET YEAR = " + newValue + " WHERE ID = ?";
-            PreparedStatement p3 = null;
-            try {
-                p3 = con.prepareStatement(query);
-                p3.setInt(1,k);
-                p3.executeQuery();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-        time.textProperty().addListener((observable, oldValue, newValue) -> {
-            String query = "UPDATE MOVIE_DET SET LENGTH = " + newValue + " WHERE ID = ?";
-            PreparedStatement p3 = null;
-            try {
-                p3 = con.prepareStatement(query);
-                p3.setInt(1,k);
-                p3.executeQuery();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-        size.textProperty().addListener((observable, oldValue, newValue) -> {
-            String query = "UPDATE MOVIE_DET SET SIZE = " + newValue + " WHERE ID = ?";
-            PreparedStatement p3 = null;
-            try {
-                p3 = con.prepareStatement(query);
-                p3.setInt(1,k);
-                p3.executeQuery();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-        Genre.textProperty().addListener((observable, oldValue, newValue) -> {
-            String query = "UPDATE GENRE SET TYPE = " + newValue +" WHERE ID = ?;";
-            PreparedStatement p3 = null;
-            try {
-                p3 = con.prepareStatement(query);
-                p3.setInt(1,k);
-                p3.executeQuery();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-        boxs.textProperty().addListener((observable, oldValue, newValue) -> {
-            String query = "UPDATE MOVIE_DET SET BOX = " + newValue + " WHERE ID = ?";
-            PreparedStatement p3 = null;
-            try {
-                p3 = con.prepareStatement(query);
-                p3.setInt(1,k);
-                p3.executeQuery();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-        });
-        production.textProperty().addListener((observable, oldValue, newValue) -> {
-            String query = "UPDATE PRODHOUSE SET NAME = " + newValue+ " WHERE PID = ?;";
-            PreparedStatement p3 = null;
-            try {
-                p3 = con.prepareStatement(query);
-                p3.setInt(1,pid);
-                p3.executeQuery();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-        ceo.textProperty().addListener((observable, oldValue, newValue) -> {
-            String query = "UPDATE PRODHOUSE SET CEO = " + newValue+ " WHERE PID = ?;";
-            PreparedStatement p3 = null;
-            try {
-                p3 = con.prepareStatement(query);
-                p3.setInt(1,pid);
-                p3.executeQuery();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-        Rating.textProperty().addListener((observable, oldValue, newValue) -> {
-            String query = "UPDATE MOVIE_DET SET RATING = " + newValue + " WHERE ID = ?";
-            PreparedStatement p3 = null;
-            try {
-                p3 = con.prepareStatement(query);
-                p3.setInt(1,k);
-                p3.executeQuery();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-        sublang.textProperty().addListener((observable, oldValue, newValue) -> {
-            String query = "UPDATE SUBTITLES SET LANG = " + newValue + " WHERE MID = ?";
-            PreparedStatement p3 = null;
-            try {
-                p3 = con.prepareStatement(query);
-                p3.setInt(1,k);
-                p3.executeQuery();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
+        if(name.getText().equals(""))
+            name.setStyle("-fx-border-color: transparent transparent red transparent;");
+        if(director.getText().equals(""))
+            director.setStyle("-fx-border-color: transparent transparent red transparent;");
+        try {
+            Integer.parseInt(directorage.getText());
+        }catch (Exception e)
+        {
+            directorage.setStyle("-fx-border-color: transparent transparent red transparent;");
+        }
+        if(casts.getText().equals(""))
+            casts.setStyle("-fx-border-color: transparent transparent red transparent;");
+        try {
+            Integer.parseInt(years.getText());
+        }catch (Exception e)
+        {
+            years.setStyle("-fx-border-color: transparent transparent red transparent;");
+        }
+        try {
+            Integer.parseInt(boxs.getText());
+        }catch (Exception e)
+        {
+            boxs.setStyle("-fx-border-color: transparent transparent red transparent;");
+        }
+        try {
+            Integer.parseInt(time.getText());
+        }catch (Exception e)
+        {
+            time.setStyle("-fx-border-color: transparent transparent red transparent;");
+        }
+        if(Genre.getText().equals(""))
+            Genre.setStyle("-fx-border-color: transparent transparent red transparent;");
+        if(production.getText().equals(""))
+            production.setStyle("-fx-border-color: transparent transparent red transparent;");
+        if(ceo.getText().equals(""))
+            ceo.setStyle("-fx-border-color: transparent transparent red transparent;");
+        if(sublang.getText().equals(""))
+            sublang.setStyle("-fx-border-color: transparent transparent red transparent;");
+        try {
+            Integer.parseInt(Rating.getText());
+        }catch (Exception e)
+        {
+            Rating.setStyle("-fx-border-color: transparent transparent red transparent;");
+        }
+        if(l==1)
+        {
+            DropShadow borderGlow = new DropShadow();
+            borderGlow.setColor(Color.RED);
+            borderGlow.setHeight(30);
+            borderGlow.setWidth(30);
+            image.setImage(new Image("images/new.jpg"));
+            image.setEffect(borderGlow);
+        }
     }
 
    
@@ -245,9 +142,9 @@ public class UpdateController implements Initializable {
         fileChooser.setTitle("Choose File");
         File file = fileChooser.showOpenDialog(Main.stage);
         if (file != null) {
+            l=0;
             image.setImage(new Image("file:" + file.getAbsolutePath()));
             posterpath = "file:" + file.getAbsolutePath();
-            background.getChildren().remove(plus);
         }
 
     }
@@ -300,9 +197,6 @@ public class UpdateController implements Initializable {
             r3 = s.executeQuery("select PATH from movie where ID="+k+";");
             r3.next();
             moviep.setText(r3.getString("PATH"));
-            ////////////////////////////////////////***********/////////////////////////////////////////
-            //////////////////////////////////////////////*/////////////////////////////////////////////
-            /////////////////////// RUNNING TIME & SIZE  ////////////////////////////////////////////////
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -312,6 +206,171 @@ public class UpdateController implements Initializable {
             path = poster_list.getItems().get(posterno.getItems().indexOf(k));
         }
         image.setImage(new Image(path));
+        String query1 =  "SELECT PID FROM MOVIE_DET WHERE ID = ?;";
+        String query2 = "SELECT DID FROM MOVIE_DET WHERE ID = ?;";
+        int dide=0,pide=0;
+        try {
+            PreparedStatement p1 = con.prepareStatement(query1);
+            PreparedStatement p2 = con.prepareStatement(query2);
+            p1.setInt(1,k);
+            p2.setInt(1,k);
+            ResultSet r1 = p1.executeQuery();
+            ResultSet r2 = p2.executeQuery();
+            r1.next();
+            r2.next();
+            pide = r1.getInt("PID");
+            dide = r2.getInt("DID");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        final int  did = dide;
+        final int pid = pide;
+        name.textProperty().addListener((observable, oldValue, newValue) -> {
+            String query = "UPDATE MOVIE SET NAME = ? WHERE ID = ?;";
+            PreparedStatement p3 = null;
+            try {
+                p3 = con.prepareStatement(query);
+                p3.setString(1,newValue);
+                p3.setInt(2,k);
+                p3.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        });
+        director.textProperty().addListener((observable, oldValue, newValue) -> {
+            String query = "UPDATE DIRECTOR SET NAME = ? WHERE DID = ?;";
+            PreparedStatement p3 = null;
+            try {
+                p3 = con.prepareStatement(query);
+                p3.setString(1,newValue);
+                p3.setInt(2,k);
+                p3.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        directorage.textProperty().addListener((observable, oldValue, newValue) -> {
+            String query = "UPDATE DIRECTOR SET AGE = ? WHERE DID = ?;";
+            PreparedStatement p3 = null;
+            try {
+                p3 = con.prepareStatement(query);
+                p3.setString(1,newValue);
+                p3.setInt(2,did);
+                p3.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        casts.textProperty().addListener((observable, oldValue, newValue) -> {
+            String query = "UPDATE MOVCAST SET CNAME = ? WHERE ID = ?;";
+            PreparedStatement p3 = null;
+            try {
+                p3 = con.prepareStatement(query);
+                p3.setString(1,newValue);
+                p3.setInt(2,k);
+                p3.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        years.textProperty().addListener((observable, oldValue, newValue) -> {
+            String query = "UPDATE MOVIE_DET SET YEAR = ? WHERE ID = ?";
+            PreparedStatement p3 = null;
+            try {
+                p3 = con.prepareStatement(query);
+                p3.setInt(2,k);
+                p3.setString(1,newValue);
+                p3.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        time.textProperty().addListener((observable, oldValue, newValue) -> {
+            String query = "UPDATE MOVIE_DET SET LENGTH = ? WHERE ID = ?";
+            PreparedStatement p3 = null;
+            try {
+                p3 = con.prepareStatement(query);
+                p3.setInt(2,k);
+                p3.setString(1,newValue);
+                p3.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        Genre.textProperty().addListener((observable, oldValue, newValue) -> {
+            String query = "UPDATE GENRE SET TYPE = ? WHERE ID = ?;";
+            PreparedStatement p3 = null;
+            try {
+                p3 = con.prepareStatement(query);
+                p3.setInt(2,k);
+                p3.setString(1,newValue);
+                p3.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        boxs.textProperty().addListener((observable, oldValue, newValue) -> {
+            String query = "UPDATE MOVIE_DET SET BOX = ? WHERE ID = ?";
+            PreparedStatement p3 = null;
+            try {
+                p3 = con.prepareStatement(query);
+                p3.setInt(2,k);
+                p3.setString(1,newValue);
+                p3.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        });
+        production.textProperty().addListener((observable, oldValue, newValue) -> {
+            String query = "UPDATE PRODHOUSE SET NAME = ? WHERE PID = ?;";
+            PreparedStatement p3 = null;
+            try {
+                p3 = con.prepareStatement(query);
+                p3.setInt(2,pid);
+                p3.setString(1,newValue);
+                p3.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        ceo.textProperty().addListener((observable, oldValue, newValue) -> {
+            String query = "UPDATE PRODHOUSE SET CEO = ? WHERE PID = ?;";
+            PreparedStatement p3 = null;
+            try {
+                p3 = con.prepareStatement(query);
+                p3.setInt(2,pid);
+                p3.setString(1,newValue);
+                p3.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        Rating.textProperty().addListener((observable, oldValue, newValue) -> {
+            String query = "UPDATE MOVIE_DET SET RATING = " + newValue + " WHERE ID = ?";
+            PreparedStatement p3 = null;
+            try {
+                p3 = con.prepareStatement(query);
+                p3.setInt(2,k);
+                p3.setString(1,newValue);
+                p3.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        sublang.textProperty().addListener((observable, oldValue, newValue) -> {
+            String query = "UPDATE SUBTITLES SET LANG = ? WHERE MID = ?";
+            PreparedStatement p3 = null;
+            try {
+                p3 = con.prepareStatement(query);
+                p3.setInt(2,k);
+                p3.setString(1,newValue);
+                p3.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void choosemovie() {
@@ -322,6 +381,19 @@ public class UpdateController implements Initializable {
             moviep.setText(file.getAbsolutePath().toString());
             moviep.setAlignment(Pos.CENTER_LEFT);
         }
+        double s;
+        s=file.length();
+        if(s>1024*1024*102.4)
+        {
+            s/=(double)1024;
+            s/=(double)1024;
+            s/=(double)1024;
+            size.setText(Double.toString(s).substring(0,4));
+        }
+        else {
+            size.setText("0");
+        }
+        size.setText(size.getText()+" GB");
     }
 
     public void choosesub() {

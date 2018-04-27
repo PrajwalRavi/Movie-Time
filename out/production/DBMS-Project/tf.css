@@ -72,7 +72,7 @@
 #forgot{
 	-fx-background-color: transparent;
 	-fx-text-fill: black;
-	-fx-font-weight: normal;
+	-fx-font-weight: bold;
 }
 #forgot:hover{
 	-fx-text-fill: #fbcb29;
@@ -81,6 +81,7 @@
 .scroll-pane{
 	-fx-padding:21.5em;
 }
-.image-view:hover{
-
+.text-field {
+	-fx-prompt-text-fill: #434343;
+    -fx-font-weight: bold;
 }

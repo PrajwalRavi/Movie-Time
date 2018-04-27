@@ -47,7 +47,7 @@
             </font>
         </Label>
         <FontAwesomeIconView fill="WHITE" glyphName="CLOSE" layoutX="1865.0" layoutY="49.0" size="30.0" onMouseClicked="#back"/>
-        <TextField fx:id="Genre" layoutX="748.0" layoutY="592.0" prefHeight="50.0" prefWidth="587.0" promptText="Genre">
+        <TextField fx:id="Genre" layoutX="748.0" layoutY="592.0" prefHeight="50.0" prefWidth="587.0" promptText="Genre seperated by ','">
             <font>
                 <Font size="23.0" />
             </font>
