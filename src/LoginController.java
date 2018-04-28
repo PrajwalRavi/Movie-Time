@@ -36,8 +36,8 @@ public class LoginController implements Initializable
     //* @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-
         pavan.getSelectionModel().select(SIGNIN);
+        username.requestFocus();
         username.setOnKeyReleased(event -> {
             if(event.getCode()==(KeyCode.ENTER))
             {
@@ -50,6 +50,8 @@ public class LoginController implements Initializable
                 try {
                     onClickLogin();
                 } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -79,10 +81,8 @@ public class LoginController implements Initializable
     }
 
     public void onClickLogin() throws SQLException, IOException {
-        System.out.println(javafx.scene.text.Font.getFamilies());
         name = username.getText();
         pass = password.getText();
-       // new Details().getUserMovies();
         try {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/akhil", "root","root");
             ResultSet valid = con.createStatement().executeQuery("SELECT * FROM creds WHERE uname='"+name+"' AND password='"+pass+"';");
@@ -145,9 +145,10 @@ public class LoginController implements Initializable
     }
 
     public void onClickDelete() throws SQLException {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin", "test", "password");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/akhil", "root", "root");
         con.createStatement().executeUpdate("DROP SCHEMA "+username.getText()+";");
         con.createStatement().executeUpdate("DELETE FROM creds WHERE uname='"+username.getText()+"';");
+
     }
 
     public TextField search= new TextField();
@@ -159,8 +160,35 @@ public class LoginController implements Initializable
         MenuBar bar = new MenuBar();
         Menu filem = new Menu("_File");
         Menu editm = new Menu("_Edit");
+        MenuItem down = new MenuItem("Download");
+        filem.getItems().add(down);
+        down.setOnAction(event -> {
+            Details d = new Details();
+            d.click();
+        });
+        MenuItem delete = new MenuItem("Delete User");
+        editm.getItems().add(delete);
+        delete.setOnAction(event -> {
+            try {
+                onClickDelete();
+                Parent root = null;
+                try {
+                    root = FXMLLoader.load(getClass().getResource("log_des.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Main.stage.hide();
+                Main.stage.setScene(new Scene(root,940,520));
+                Main.stage.setMaxHeight(540);
+                Main.stage.setMaxWidth(960);
+                Main.stage.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
         bar.getMenus().addAll(filem,editm);
         bar.setLayoutY(0);bar.setPrefWidth(400);
+        bar.setStyle("-fx-background-color: transparent");
         ScrollPane sp = new ScrollPane();
         anchor.setPrefSize(1920,1048);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED     );
@@ -380,7 +408,9 @@ public class LoginController implements Initializable
         outer.getChildren().add(search);
         outer.getChildren().add(icon);
         outer.getChildren().add(logout);
-        Main.stage.setScene(new Scene(outer, 1920, 1080));
+        Scene scene =new Scene(outer, 1920, 1080);
+        scene.getStylesheets().add(String.valueOf(getClass().getResource("/tf4.css")));
+        Main.stage.setScene(scene);
         Main.stage.hide();
         Main.stage.setMaxHeight(1080);
         Main.stage.setMaxWidth(1920);
@@ -397,8 +427,15 @@ public class LoginController implements Initializable
         MenuBar bar = new MenuBar();
         Menu filem = new Menu("_File");
         Menu editm = new Menu("_Edit");
+        MenuItem down = new MenuItem("Download");
+        filem.getItems().add(down);
+        down.setOnAction(event -> {
+            Details d = new Details();
+            d.click();
+        });
         bar.getMenus().addAll(filem,editm);
         bar.setLayoutY(0);bar.setPrefWidth(400);
+        bar.setStyle("-fx-background-color: transparent");
         ScrollPane sp = new ScrollPane();
         anchor.setPrefSize(1920,1048);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED     );
@@ -586,7 +623,9 @@ public class LoginController implements Initializable
         outer.getChildren().add(icon);
         outer.getChildren().add(back);
         outer.getChildren().add(logout);
-        Main.stage.setScene(new Scene(outer, 1920, 1080));
+        Scene scene =new Scene(outer, 1920, 1080);
+        scene.getStylesheets().add(String.valueOf(getClass().getResource("/tf4.css")));
+        Main.stage.setScene(scene);
         Main.stage.hide();
         Main.stage.setMaxHeight(1080);
         Main.stage.setMaxWidth(1920);

@@ -40,51 +40,81 @@ public class InsertController implements Initializable {
     TextField message;
     String posterpath;
     public int l=1;
+    public int g=0;
     public void InsertIntoTables() throws SQLException {
+        g=0;
         try {
-        if(name.getText().equals(""))
+            if(name.getText().equals(""))
+        {
             name.setStyle("-fx-border-color: transparent transparent red transparent;");
+            g=1;
+        }
+
         if(director.getText().equals(""))
+        {
             director.setStyle("-fx-border-color: transparent transparent red transparent;");
+            g=1;
+        }
         try {
             Integer.parseInt(directorage.getText());
         }catch (Exception e)
         {
-            directorage.setStyle("-fx-border-color: transparent transparent red transparent;");
+            {
+                directorage.setStyle("-fx-border-color: transparent transparent red transparent;");
+                g=1;
+            }
         }
         if(casts.getText().equals(""))
             casts.setStyle("-fx-border-color: transparent transparent red transparent;");
             try {
-                Integer.parseInt(years.getText());
+                {
+                    Integer.parseInt(years.getText());
+                }
             }catch (Exception e)
             {
-                years.setStyle("-fx-border-color: transparent transparent red transparent;");
+                {
+                    years.setStyle("-fx-border-color: transparent transparent red transparent;");g=1;
+                }
             }
             try {
                 Integer.parseInt(boxs.getText());
             }catch (Exception e)
             {
-                boxs.setStyle("-fx-border-color: transparent transparent red transparent;");
+                {
+                    boxs.setStyle("-fx-border-color: transparent transparent red transparent;");g=1;
+                }
             }
             try {
                 Integer.parseInt(time.getText());
             }catch (Exception e)
             {
-                time.setStyle("-fx-border-color: transparent transparent red transparent;");
+                {
+                    time.setStyle("-fx-border-color: transparent transparent red transparent;");g=1;
+                }
             }
             if(Genre.getText().equals(""))
-                Genre.setStyle("-fx-border-color: transparent transparent red transparent;");
+            {
+                Genre.setStyle("-fx-border-color: transparent transparent red transparent;");g=1;
+            }
             if(production.getText().equals(""))
-                production.setStyle("-fx-border-color: transparent transparent red transparent;");
+            {
+                production.setStyle("-fx-border-color: transparent transparent red transparent;");g=1;
+            }
             if(ceo.getText().equals(""))
-                ceo.setStyle("-fx-border-color: transparent transparent red transparent;");
+            {
+                ceo.setStyle("-fx-border-color: transparent transparent red transparent;");g=1;
+            }
             if(sublang.getText().equals(""))
-                sublang.setStyle("-fx-border-color: transparent transparent red transparent;");
+            {
+                sublang.setStyle("-fx-border-color: transparent transparent red transparent;");g=1;
+            }
             try {
                 Integer.parseInt(Rating.getText());
             }catch (Exception e)
             {
-                Rating.setStyle("-fx-border-color: transparent transparent red transparent;");
+                {
+                    Rating.setStyle("-fx-border-color: transparent transparent red transparent;");g=1;
+                }
             }
             if(l==1)
             {
@@ -94,105 +124,110 @@ public class InsertController implements Initializable {
                 borderGlow.setWidth(30);
                 image.setImage(new Image("images/new.jpg"));
                 image.setEffect(borderGlow);
+                g=1;
             }
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + LoginController.name, "root", "root");
-        String movie_name = name.getText();
-        int year = Integer.parseInt(years.getText());
-        double rating = Double.parseDouble(Rating.getText());
-        String genre = Genre.getText();
-        String spath = "file:"+subp.getText();
-        String ppath = posterpath;
-        String mpath = "file:"+moviep.getText();
-        String dname = director.getText();
-        int dage = Integer.parseInt(directorage.getText());
-        String prodname = production.getText();
-        String prodceo = ceo.getText();
-        String cast  = casts.getText();
-        String slang = sublang.getText();
-        double box = Double.parseDouble(boxs.getText());
+            if(g==0)
+            {
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + LoginController.name, "root", "root");
+                String movie_name = name.getText();
+                int year = Integer.parseInt(years.getText());
+                double rating = Double.parseDouble(Rating.getText());
+                String genre = Genre.getText();
+                String spath = "file:"+subp.getText();
+                String ppath = posterpath;
+                String mpath = "file:"+moviep.getText();
+                String dname = director.getText();
+                int dage = Integer.parseInt(directorage.getText());
+                String prodname = production.getText();
+                String prodceo = ceo.getText();
+                String cast  = casts.getText();
+                String slang = sublang.getText();
+                double box = Double.parseDouble(boxs.getText());
 
-        int p_id,d_id,m_id;
-        //message.setEditable(false);
+                int p_id,d_id,m_id;
+                //message.setEditable(false);
 
-            //prodhouse
-            ResultSet r = con.createStatement().executeQuery("SELECT * FROM PRODHOUSE WHERE NAME='" + prodname + "'");
-            if (r.next()) {
-                p_id = r.getInt("PID");
-            } else {
-                PreparedStatement s = con.prepareStatement("INSERT INTO PRODHOUSE(NAME,CEO) VALUES(?,?);");
-                s.setString(1, prodname);
-                s.setString(2, prodceo);
-                s.execute();
-                String query1 = "SELECT PID FROM PRODHOUSE WHERE NAME = ?;";
-                PreparedStatement p1 = con.prepareStatement(query1);
-                p1.setString(1, prodname);
-                ResultSet r1 = p1.executeQuery();
-                r1.next();
-                p_id = r1.getInt("PID");
+                //prodhouse
+                ResultSet r = con.createStatement().executeQuery("SELECT * FROM PRODHOUSE WHERE NAME='" + prodname + "'");
+                if (r.next()) {
+                    p_id = r.getInt("PID");
+                } else {
+                    PreparedStatement s = con.prepareStatement("INSERT INTO PRODHOUSE(NAME,CEO) VALUES(?,?);");
+                    s.setString(1, prodname);
+                    s.setString(2, prodceo);
+                    s.execute();
+                    String query1 = "SELECT PID FROM PRODHOUSE WHERE NAME = ?;";
+                    PreparedStatement p1 = con.prepareStatement(query1);
+                    p1.setString(1, prodname);
+                    ResultSet r1 = p1.executeQuery();
+                    r1.next();
+                    p_id = r1.getInt("PID");
+                }
+
+                //director
+                r = con.createStatement().executeQuery("SELECT * FROM DIRECTOR WHERE NAME='" + dname + "';");
+                if (r.next()) {
+                    d_id = r.getInt("DID");
+                } else {
+                    PreparedStatement s2 = con.prepareStatement(("INSERT INTO DIRECTOR(NAME,AGE) VALUES(?,?);"));
+                    s2.setString(1, dname);
+                    s2.setInt(2, dage);
+                    s2.execute();
+                    String query2 = "SELECT DID FROM DIRECTOR WHERE NAME = ?;";
+                    PreparedStatement p2 = con.prepareStatement(query2);
+                    p2.setString(1, dname);
+                    ResultSet r2 = p2.executeQuery();
+                    r2.next();
+                    d_id = r2.getInt("DID");
+                }
+                //movie
+                PreparedStatement s3 = con.prepareStatement("INSERT INTO MOVIE(PATH,NAME) VALUES(?,?);");
+                s3.setString(1, mpath);
+                s3.setString(2, movie_name);
+                s3.execute();
+
+                //movie_det
+                String query3 = "SELECT ID FROM MOVIE WHERE NAME = ?;";
+                PreparedStatement p3 = con.prepareStatement(query3);
+                p3.setString(1, movie_name);
+                ResultSet r3 = p3.executeQuery();
+                r3.next();
+                m_id = r3.getInt("ID");
+                PreparedStatement s4 = con.prepareStatement("INSERT INTO MOVIE_DET(ID,DID,PID,YEAR,RATING,WATCHED,BOX) VALUES(?,?,?,?,?,0,?);");
+                s4.setInt(1, m_id);
+                s4.setInt(2, d_id);
+                s4.setInt(3, p_id);
+                s4.setInt(4, year);
+                s4.setDouble(5, rating);
+                s4.setDouble(6, box);
+                s4.execute();
+
+                String ar[] = genre.split(",");
+                for (int i = 0; i < ar.length; i++)
+                    con.createStatement().executeUpdate("INSERT INTO GENRE VALUES(" + m_id + ",'" + ar[i] + "');");
+
+                //poster
+                PreparedStatement s5 = con.prepareStatement("INSERT INTO POSTER(MID,PID,PATH) VALUES(?,NULL,?);");
+                s5.setInt(1, m_id);
+                s5.setString(2, ppath);
+                s5.execute();
+                //subtitles
+                PreparedStatement s6 = con.prepareStatement("INSERT INTO SUBTITLES(MID,SID,PATH,LANG) VALUES(?,NULL,?,?);");
+                s6.setInt(1, m_id);
+                s6.setString(2, spath);
+                s6.setString(3, slang);
+                s6.execute();
+
+                //movie cast
+                String br[] = cast.split(",");
+                for (int i = 0; i < br.length; i++)
+                    con.createStatement().executeUpdate("INSERT INTO MOVCAST(MID,CNAME) VALUES(" + m_id + ",'" + br[i] + "');");
+
+                con.close();
+                back();
             }
 
-            //director
-            r = con.createStatement().executeQuery("SELECT * FROM DIRECTOR WHERE NAME='" + dname + "';");
-            if (r.next()) {
-                d_id = r.getInt("DID");
-            } else {
-                PreparedStatement s2 = con.prepareStatement(("INSERT INTO DIRECTOR(NAME,AGE) VALUES(?,?);"));
-                s2.setString(1, dname);
-                s2.setInt(2, dage);
-                s2.execute();
-                String query2 = "SELECT DID FROM DIRECTOR WHERE NAME = ?;";
-                PreparedStatement p2 = con.prepareStatement(query2);
-                p2.setString(1, dname);
-                ResultSet r2 = p2.executeQuery();
-                r2.next();
-                d_id = r2.getInt("DID");
-            }
-            //movie
-            PreparedStatement s3 = con.prepareStatement("INSERT INTO MOVIE(PATH,NAME) VALUES(?,?);");
-            s3.setString(1, mpath);
-            s3.setString(2, movie_name);
-            s3.execute();
 
-            //movie_det
-            String query3 = "SELECT ID FROM MOVIE WHERE NAME = ?;";
-            PreparedStatement p3 = con.prepareStatement(query3);
-            p3.setString(1, movie_name);
-            ResultSet r3 = p3.executeQuery();
-            r3.next();
-            m_id = r3.getInt("ID");
-            PreparedStatement s4 = con.prepareStatement("INSERT INTO MOVIE_DET(ID,DID,PID,YEAR,RATING,WATCHED,BOX) VALUES(?,?,?,?,?,0,?);");
-            s4.setInt(1, m_id);
-            s4.setInt(2, d_id);
-            s4.setInt(3, p_id);
-            s4.setInt(4, year);
-            s4.setDouble(5, rating);
-            s4.setDouble(6, box);
-            s4.execute();
-
-            String ar[] = genre.split(",");
-            for (int i = 0; i < ar.length; i++)
-                con.createStatement().executeUpdate("INSERT INTO GENRE VALUES(" + m_id + ",'" + ar[i] + "');");
-
-            //poster
-            PreparedStatement s5 = con.prepareStatement("INSERT INTO POSTER(MID,PID,PATH) VALUES(?,NULL,?);");
-            s5.setInt(1, m_id);
-            s5.setString(2, ppath);
-            s5.execute();
-
-            //subtitles
-            PreparedStatement s6 = con.prepareStatement("INSERT INTO SUBTITLES(MID,SID,PATH,LANG) VALUES(?,NULL,?,?);");
-            s6.setInt(1, m_id);
-            s6.setString(2, spath);
-            s6.setString(3, slang);
-            s6.execute();
-
-            //movie cast
-            String br[] = cast.split(",");
-            for (int i = 0; i < br.length; i++)
-                con.createStatement().executeUpdate("INSERT INTO MOVCAST(MID,CNAME) VALUES(" + m_id + ",'" + br[i] + "');");
-
-            con.close();
-            back();
         }
         catch (SQLException e)
         {

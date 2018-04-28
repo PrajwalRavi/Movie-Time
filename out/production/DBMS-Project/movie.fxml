@@ -10,17 +10,17 @@
 <AnchorPane fx:id="background" prefHeight="1080.0" prefWidth="1920.0" stylesheets="tf2.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="movie">
    <children>
       <ImageView fx:id="image" fitHeight="764.0" fitWidth="517.0" layoutX="144.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="name" layoutX="748.0" layoutY="150.0" prefHeight="63.0" prefWidth="437.0" text="Label" textFill="WHITE">
+      <Label fx:id="name" layoutX="748.0" layoutY="109.0" prefHeight="63.0" prefWidth="437.0" text="Label" textFill="WHITE">
          <font>
             <Font size="34.0" />
          </font>
       </Label>
-      <Label fx:id="director" layoutX="748.0" layoutY="257.0" prefHeight="38.0" prefWidth="279.0" text="Label" textFill="WHITE">
+      <Label fx:id="director" layoutX="748.0" layoutY="257.0" prefHeight="38.0" prefWidth="388.0" text="Label" textFill="WHITE">
          <font>
             <Font size="23.0" />
          </font>
       </Label>
-      <Label fx:id="directorage" layoutX="1088.0" layoutY="257.0" prefHeight="38.0" prefWidth="279.0" text="Label" textFill="WHITE">
+      <Label fx:id="directorage" layoutX="1173.0" layoutY="257.0" prefHeight="38.0" prefWidth="279.0" text="Label" textFill="WHITE">
          <font>
             <Font size="23.0" />
          </font>
@@ -35,12 +35,12 @@
             <Font size="23.0" />
          </font>
       </Label>
-      <Label fx:id="time" layoutX="748.0" layoutY="521.0" prefHeight="38.0" prefWidth="279.0" text="Label" textFill="WHITE">
+      <Label fx:id="time" layoutX="748.0" layoutY="521.0" prefHeight="38.0" prefWidth="388.0" text="Label" textFill="WHITE">
          <font>
             <Font size="23.0" />
          </font>
       </Label>
-      <Label fx:id="size" layoutX="1088.0" layoutY="521.0" prefHeight="38.0" prefWidth="279.0" text="Label" textFill="WHITE">
+      <Label fx:id="size" layoutX="1173.0" layoutY="521.0" prefHeight="38.0" prefWidth="279.0" text="Label" textFill="WHITE">
          <font>
             <Font size="23.0" />
          </font>
@@ -74,5 +74,10 @@
       <Button layoutX="1602.0" layoutY="858.0" mnemonicParsing="false" onMouseClicked="#delete" prefHeight="38.0" prefWidth="140.0" text="Delete" />
       <Button layoutX="1602.0" layoutY="785.0" mnemonicParsing="false" onMouseClicked="#Mohanty" prefHeight="38.0" prefWidth="140.0" text="Edit" />
       <Button layoutX="1602.0" layoutY="711.0" mnemonicParsing="false" onMouseClicked="#play" prefHeight="38.0" prefWidth="140.0" text="Play" />
+      <Label fx:id="watch" layoutX="748.0" layoutY="191.0" prefHeight="38.0" prefWidth="645.0" text="Label" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

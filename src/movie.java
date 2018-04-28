@@ -35,6 +35,7 @@ public class movie implements Initializable {
     @FXML Label ceo;
     @FXML Label rating;
     @FXML AnchorPane background;
+    @FXML Label watch;
     String user = LoginController.name;
     Connection con;
     public int k;
@@ -71,8 +72,12 @@ public class movie implements Initializable {
             rating.setText(rating.getText().indexOf(".") < 0 ? rating.getText() : rating.getText().replaceAll("0*$", "").replaceAll("\\.$", ""));
             rating.setText(rating.getText()+"/10");
             box.setText(Integer.toString(r3.getInt("BOX")));
-            time.setText(Integer.toString(r3.getInt("LENGTH")));
+            time.setText(Double.toString(r3.getDouble("LENGTH")));
             size.setText(Double.toString(r3.getDouble("SIZE")));
+            if(r3.getBoolean("WATCHED")==true)
+                watch.setText("You have watched this movie");
+            else
+                watch.setText("You have'nt watched this movie");
             r3 = s.executeQuery("select TYPE from genre where ID="+k+";");
             String g ="";
             while(r3.next()) {
@@ -93,7 +98,6 @@ public class movie implements Initializable {
             r3.next();
             production.setText(r3.getString("NAME"));
             ceo.setText(r3.getString("CEO"));
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -114,7 +118,7 @@ public class movie implements Initializable {
         ceo.setStyle("-fx-font-weight: bold");
         rating.setStyle("-fx-font-weight: bold");
         size.setStyle("-fx-font-weight: bold");
-
+        watch.setStyle("-fx-font-weight: normal;-fx-text-fill: wheat");
         director.setText("Director :  " +director.getText());
         directorage.setText("Age :  " +directorage.getText());
         cast.setText("Cast  :  "+cast.getText());
@@ -165,9 +169,15 @@ public class movie implements Initializable {
             r3.next();
 
             subp=r3.getString("PATH");
-            Process p = Runtime.getRuntime().exec("vlc "+moviep);
+            Process p = Runtime.getRuntime().exec("vlc "+moviep +"  --sub-file="+subp);
+           s.executeUpdate("UPDATE movie_det SET WATCHED=true where ID="+k+";");
+            watch.setText("You have watched this movie");
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void download(){
+
     }
 }

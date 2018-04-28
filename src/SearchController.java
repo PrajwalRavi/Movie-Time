@@ -8,39 +8,42 @@ public class SearchController {
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + LoginController.name, "root", "root");
         ListView<Integer> ids = new ListView<Integer>();
         Statement s = con.createStatement();
-        ResultSet movies = s.executeQuery("SELECT movie.ID as ID FROM MOVIE JOIN MOVIE_DET WHERE MOVIE.ID=MOVIE_DET.ID AND (MOVIE.NAME LIKE '%"+word+"%' OR GENRE LIKE '%"+word+"%');");
-        while (movies.next())
-        {
+        ResultSet movies = s.executeQuery("SELECT movie.ID as ID FROM MOVIE JOIN MOVIE_DET WHERE MOVIE.ID=MOVIE_DET.ID AND (MOVIE.NAME LIKE '%" + word + "%');");
+        while (movies.next()) {
             int a = movies.getInt("ID");
-            if(ids.getItems().contains(a)==false)
+            if (ids.getItems().contains(a) == false)
                 ids.getItems().add(a);
 
         }
-        ResultSet dirs =  s.executeQuery("SELECT ID FROM DIRECTOR JOIN MOVIE_DET WHERE DIRECTOR.DID=MOVIE_DET.DID AND NAME LIKE '%"+word+"%';");
-        while (dirs.next())
-        {
+        ResultSet dirs = s.executeQuery("SELECT ID FROM DIRECTOR JOIN MOVIE_DET WHERE DIRECTOR.DID=MOVIE_DET.DID AND NAME LIKE '%" + word + "%';");
+        while (dirs.next()) {
             int a = dirs.getInt("ID");
-            if(ids.getItems().contains(a)==false)
+            if (ids.getItems().contains(a) == false)
                 ids.getItems().add(a);
 
         }
-        ResultSet houses = s.executeQuery("SELECT ID FROM MOVIE_DET JOIN PRODHOUSE WHERE MOVIE_DET.PID=PRODHOUSE.PID AND NAME LIKE '%"+word+"%';");
-        while (houses.next())
-        {
+        ResultSet houses = s.executeQuery("SELECT ID FROM MOVIE_DET JOIN PRODHOUSE WHERE MOVIE_DET.PID=PRODHOUSE.PID AND NAME LIKE '%" + word + "%';");
+        while (houses.next()) {
             int a = houses.getInt("ID");
-            if(ids.getItems().contains(a)==false)
+            if (ids.getItems().contains(a) == false)
                 ids.getItems().add(a);
 
         }
-        ResultSet cast = s.executeQuery("SELECT DISTINCT MID FROM MOVCAST WHERE CNAME LIKE '%"+word+"%';");
-        while (cast.next())
-        {
+        ResultSet cast = s.executeQuery("SELECT DISTINCT MID FROM MOVCAST WHERE CNAME LIKE '%" + word + "%';");
+        while (cast.next()) {
             int a = cast.getInt("MID");
-            if(ids.getItems().contains(a)==false)
+            if (ids.getItems().contains(a) == false)
                 ids.getItems().add(a);
 
         }
+        /*ResultSet genre = s.executeQuery(("SELECT ID FROM GENRE WHERE TYPE LIKE '%" + word + "%';"));
+        while (genre.next()) {
+            int a = cast.getInt("MID");
+            if (ids.getItems().contains(a) == false)
+                ids.getItems().add(a);
+        }*/
         return ids;
+    }
 
 
         /*ResultSet result = s.executeQuery("SELECT * FROM MOVIE_DET,MOVIE WHERE MOVIE.ID=MOVIE_DET.ID AND "+fiter.getText()+" LIKE '%"+word.getText()+"'%;");
@@ -74,4 +77,4 @@ public class SearchController {
         }
     }*/
 
-}
+

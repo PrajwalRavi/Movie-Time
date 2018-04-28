@@ -187,7 +187,7 @@ public class UpdateController implements Initializable {
             Rating.setText(Rating.getText().indexOf(".") < 0 ? Rating.getText() : Rating.getText().replaceAll("0*$", "").replaceAll("\\.$", ""));
             Rating.setText(Rating.getText());
             boxs.setText(Integer.toString(r3.getInt("BOX")));
-            time.setText(Integer.toString(r3.getInt("LENGTH")));
+            time.setText(Double.toString(r3.getDouble("LENGTH")));
             size.setText(Double.toString(r3.getDouble("SIZE")));
             r3 = s.executeQuery("select TYPE from genre where ID="+k+";");
             String g ="";
@@ -448,6 +448,7 @@ public class UpdateController implements Initializable {
                 PreparedStatement p9 = con.prepareStatement(query9);
                 p9.setInt(2,k);
                 p9.setString(1,subp.getText());
+                p9.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
